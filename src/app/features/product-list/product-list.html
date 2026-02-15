@@ -1,0 +1,50 @@
+<div class="container-fluid mantis-container mt-4">
+    <div class="row header-content mb-5">
+        <app-header></app-header>
+    </div>  
+  <div class="row pt-3">
+
+    <div class="col-lg-3 col-md-4 mb-4">
+      <div class="filter-wrapper">
+        <app-product-filter></app-product-filter>
+      </div>
+    </div>
+
+    <div class="col-lg-9 col-md-8">
+      <div class="row g-3"> <div class="col-xl-4 col-lg-6 col-md-6 mb-4" *ngFor="let product of products">
+          <mat-card class="mantis-product-card shadow-none">
+            
+            <div class="image-container">
+                <div class="product-bg-image" 
+                    [ngStyle]="{'background-image': 'url(' + product.image + ')'}"
+                    role="img" 
+                    [attr.aria-label]="product.name">
+                </div>
+                
+                <div class="badge-new">Nouveau</div>
+                <mat-icon class="badge-favorities" style="font-size: 17px;">favorite_border</mat-icon>
+            </div>
+
+            <mat-card-content class="pt-3">
+              <div class="category-text text-uppercase">Sport</div>
+              <h3 class="product-title">{{ product.name }}</h3>
+              
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <span class="price-tag">{{ product.price | number }} Ar</span>
+                <div class="rating">
+                    <i class="fa fa-star text-warning"></i> 
+                    <small>(4.5)</small>
+                </div>
+              </div>
+            </mat-card-content>
+
+          </mat-card>
+        </div>
+
+      </div>
+    </div>
+        <div class="row header-content mb-5">
+        <app-footer></app-footer>
+    </div>  
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="mantis-aside-filter">
+  <div class="filter-head">
+    <h3>Filtrer</h3>
+    <button type="button" class="btn-reset" (click)="resetFilters()">
+      <i class="fa fa-undo"></i> Réinitialiser
+    </button>
+  </div>
+
+  <div class="filter-content">
+
+    <div class="filter-group">
+      <label class="group-label">Specificites</label>
+      <div class="checkbox-list">
+        <label class="custom-check">
+          <input type="checkbox" [(ngModel)]="filters.categories.electronique">
+          <span class="checkmark"></span> Nouveau
+        </label>
+        <label class="custom-check">
+          <input type="checkbox" [(ngModel)]="filters.categories.mode">
+          <span class="checkmark"></span> En promotion
+        </label>
+        <label class="custom-check">
+          <input type="checkbox" [(ngModel)]="filters.categories.maison">
+          <span class="checkmark"></span> Favoris
+        </label>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <div class="label-row">
+        <label class="group-label">Budget Max</label>
+        <span class="value-tag">{{filters.maxPrice}} Ar</span>
+      </div>
+      <input type="range" class="mantis-range" min="0" max="2000000" step="10000" [(ngModel)]="filters.maxPrice">
+    </div>
+
+    <div class="filter-group">
+      <label class="group-label">Type de boutiques</label>
+      <select class="mantis-select" [(ngModel)]="filters.condition">
+        <option value="all">Toutes les boutiques</option>
+        <option value="new">Recommandee</option>
+        <option value="used">Simple</option>
+      </select>
+    </div>
+  </div>
+
+  <button class="btn-apply">Appliquer les filtres</button>
+</div>

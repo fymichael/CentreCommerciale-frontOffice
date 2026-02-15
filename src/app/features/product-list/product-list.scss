@@ -1,0 +1,116 @@
+/* Palette Mantis */
+$border-color: #f0f0f0;
+$text-main: #262626;
+$text-secondary: #8c8c8c;
+$primary-color: #1890ff; // Bleu Mantis standard
+
+.header-content {
+    margin-bottom: 50px;
+}
+.mantis-product-card {
+  border: 1px solid $border-color;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+  overflow: hidden;
+
+  &:hover {
+    border-color: transparent;
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+  }
+
+  .image-container {
+    position: relative;
+    background: #fafafa;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      //max-height: 100%;
+      width: 500px;
+      height: 500px;
+      object-fit: contain;
+      padding: 20px;
+    }
+  }
+
+  .product-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $text-main;
+    margin: 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .category-text {
+    font-size: 0.75rem;
+    color: $text-secondary;
+    letter-spacing: 0.5px;
+  }
+
+  .price-tag {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $text-main;
+  }
+}
+
+.mantis-btn {
+  border-radius: 4px !important;
+  text-transform: none;
+  font-weight: 500;
+  height: 40px;
+}
+
+.badge-new {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #1890ff; // Vert succès Mantis
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.badge-favorities {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 200px; // Définit une hauteur fixe pour l'unité visuelle
+  background-color: #fafafa; // Fond gris léger comme sur ton modèle
+  overflow: hidden;
+  border-radius: 8px 8px 0 0;
+}
+
+.product-bg-image {
+  width: 500px;
+  height: 500px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  
+  /* 'contain' pour voir toute la chaussure sans la couper */
+  /* 'cover' si tu veux que l'image remplisse tout le cadre */
+  background-size: contain; 
+  
+  transition: transform 0.3s ease;
+}
+
+/* Effet de zoom au survol typique de Mantis */
+.image-container:hover .product-bg-image {
+  transform: scale(1.1);
+}

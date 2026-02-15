@@ -1,0 +1,125 @@
+.mantis-aside-filter {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  font-family: 'Public Sans', sans-serif;
+}
+
+.filter-head {
+  padding: 15px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-head h3 {
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0;
+  color: #262626;
+  letter-spacing: 0.5px;
+}
+
+.btn-reset {
+  background: none;
+  border: none;
+  color: #1890ff;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.filter-content {
+  padding: 20px;
+}
+
+.filter-group {
+  margin-bottom: 25px;
+}
+
+.group-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8c8c8c;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+/* SEARCH BOX CUSTOM */
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-box i {
+  position: absolute;
+  left: 12px;
+  color: #bfbfbf;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px 10px 10px 35px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-box input:focus { border-color: #1890ff; }
+
+/* CHECKBOX CUSTOM */
+.checkbox-list { display: flex; flex-direction: column; gap: 10px; }
+
+.custom-check {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #595959;
+}
+
+.custom-check input { margin-right: 10px; width: 16px; height: 16px; accent-color: #1890ff; }
+
+/* SELECT & RANGE */
+.mantis-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fafafa;
+  outline: none;
+}
+
+.mantis-range {
+  width: 100%;
+  accent-color: #1890ff;
+}
+
+.value-tag {
+  background: #e6f7ff;
+  color: #1890ff;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 4px;
+}
+
+.btn-apply {
+  width: calc(100% - 40px);
+  margin: 0 20px 20px;
+  background: #1890ff;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-apply:hover { background: #096dd9; }
