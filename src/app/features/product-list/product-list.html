@@ -14,7 +14,8 @@
       <div class="row g-3"> <div class="col-xl-4 col-lg-6 col-md-6 mb-4" *ngFor="let product of products">
           <mat-card class="mantis-product-card shadow-none">
             
-            <div class="image-container">
+            <a href="/product-details">
+              <div class="image-container">
                 <div class="product-bg-image" 
                     [ngStyle]="{'background-image': 'url(' + product.image + ')'}"
                     role="img" 
@@ -24,10 +25,15 @@
                 <div class="badge-new">Nouveau</div>
                 <mat-icon class="badge-favorities" style="font-size: 17px;">favorite_border</mat-icon>
             </div>
+            </a>
+            
 
             <mat-card-content class="pt-3">
               <div class="category-text text-uppercase">Sport</div>
-              <h3 class="product-title">{{ product.name }}</h3>
+              <div class="product-header-row">
+                <h3 class="product-title">{{ product.name }}</h3>
+                <span class="vendor-tag">Shop-Mdg</span>
+              </div>
               
               <div class="d-flex justify-content-between align-items-center mt-3">
                 <span class="price-tag">{{ product.price | number }} Ar</span>

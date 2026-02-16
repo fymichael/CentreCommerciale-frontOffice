@@ -1,0 +1,304 @@
+.mantis-cart-container {
+  background-color: #f8f9fa;
+  padding: 40px 0;
+  font-family: 'Public Sans', sans-serif;
+  min-height: 80vh;
+}
+
+.cart-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #262626;
+}
+
+.cart-title span {
+  font-weight: 400;
+  color: #8c8c8c;
+  font-size: 16px;
+}
+
+.cart-card {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+/* Articles */
+.cart-item {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.item-image {
+  width: 100px;
+  height: 100px;
+  background: #fafafa;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-main-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.item-main-info h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.item-meta {
+  font-size: 12px;
+  color: #8c8c8c;
+  margin: 4px 0 0;
+}
+
+.item-price-unit {
+  font-size: 14px;
+  font-weight: 600;
+  color: #595959;
+}
+
+/* Actions */
+.item-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.qty-selector {
+  display: flex;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.qty-selector button {
+  border: none;
+  background: #f5f5f5;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.qty-selector input {
+  width: 40px;
+  text-align: center;
+  border: none;
+  border-left: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+  font-size: 13px;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.item-total-price {
+  margin-left: auto;
+  font-weight: 700;
+  color: #1890ff;
+}
+
+/* Summary Card */
+.summary-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #595959;
+}
+
+.free-shipping { color: #52c41a; font-weight: 600; }
+
+.total-line {
+  font-size: 18px;
+  font-weight: 700;
+  color: #262626;
+  margin: 20px 0;
+}
+
+.btn-checkout {
+  width: 100%;
+  background: #1890ff;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.secure-info {
+  text-align: center;
+  font-size: 12px;
+  color: #bfbfbf;
+  margin-top: 15px;
+}
+
+/* Alignement des actions sur une ligne */
+.item-actions-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.action-buttons-group {
+  display: flex;
+  gap: 10px;
+}
+
+/* Bouton Suivi (Ghost Style) */
+.btn-track {
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  color: #595959;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-track:hover {
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+/* Bouton Valider (Success Style) */
+.btn-validate {
+  background: #52c41a;
+  border: 1px solid #52c41a;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.btn-validate:hover {
+  opacity: 0.8;
+}
+
+.btn-delete-icon {
+  background: #fff1f0;
+  border: 1px solid #ffa39e;
+  color: #ff4d4f;
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Badges de statut */
+.status-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.status-pending { background: #fff7e6; color: #faad14; }
+.status-shipped { background: #e6f7ff; color: #1890ff; }
+
+/* Total en bas */
+.cart-footer-summary {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 20px;
+  border-top: 2px solid #f0f0f0;
+}
+
+.total-display {
+  text-align: right;
+}
+
+.total-display span { font-size: 16px; color: #8c8c8c; }
+.total-display .amount {
+  font-size: 24px;
+  font-weight: 700;
+  color: #262626;
+  display: block;
+}
+
+/* Conteneur des icônes pour l'alignement avec le texte */
+.inline-icon {
+  font-size: 18px !important; /* Taille réduite pour plus d'élégance */
+  width: 18px !important;
+  height: 18px !important;
+  margin-right: 8px; /* Espace entre l'icône et le texte */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ajustement spécifique pour le bouton icône seule (supprimer) */
+.btn-delete-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff1f0;
+  border: 1px solid #ffa39e;
+  color: #ff4d4f;
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-delete-icon mat-icon {
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.btn-delete-icon:hover {
+  background: #ff4d4f;
+  color: #fff;
+}
+
+/* Bouton Suivre et Valider (Flexbox pour aligner l'icône) */
+.btn-track, .btn-validate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.divider { border: 0; border-top: 1px solid #f0f0f0; margin: 20px 0; }

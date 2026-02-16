@@ -1,0 +1,124 @@
+.mantis-track-container {
+  background-color: #f8f9fa;
+  padding: 40px 0;
+  font-family: 'Public Sans', sans-serif;
+}
+
+.tracking-card {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tracking-header {
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+.tracking-header h2 { font-size: 18px; font-weight: 700; }
+.tracking-header h2 span { color: #1890ff; }
+
+/* La Timeline */
+.mantis-timeline {
+  position: relative;
+  padding-left: 50px;
+}
+
+/* La ligne verticale grise */
+.mantis-timeline::before {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #f0f0f0;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.timeline-item:last-child { margin-bottom: 0; }
+
+/* Les cercles/icônes */
+.timeline-icon {
+  position: absolute;
+  left: -50px;
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border: 2px solid #d9d9d9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: all 0.3s;
+}
+
+.timeline-icon mat-icon {
+  font-size: 20px;
+  color: #bfbfbf;
+  margin-left: 4px;
+  margin-top: 3px;
+}
+
+/* Contenu */
+.timeline-content h6 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  color: #262626;
+}
+
+.timeline-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timeline-date {
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.timeline-content p {
+  font-size: 13px;
+  color: #8c8c8c;
+  margin: 5px 0 0;
+}
+
+/* ÉTATS SPECIFIQUES */
+
+/* Complété (Bleu) */
+.timeline-item.completed .timeline-icon {
+  border-color: #1890ff;
+  background: #e6f7ff;
+}
+.timeline-item.completed .timeline-icon mat-icon { color: #1890ff; }
+
+/* Active (Bleu plein) */
+.timeline-item.active .timeline-icon {
+  border-color: #1890ff;
+  background: #1890ff;
+}
+.timeline-item.active .timeline-icon mat-icon { color: #fff; }
+.timeline-item.active h6 { color: #1890ff; }
+
+/* Ligne colorée pour les étapes complétées */
+.timeline-item.completed::after {
+    content: '';
+    position: absolute;
+    left: -31px;
+    top: 40px;
+    height: calc(100% + 0px);
+    width: 2px;
+    background: #1890ff;
+    z-index: 1;
+}
