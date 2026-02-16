@@ -1,0 +1,95 @@
+
+<div class="mantis-product-details-container">
+    <div class="row header-content mb-5">
+        <app-header></app-header>
+    </div>  
+
+  <div class="row g-5">
+    
+    <div class="col-md-6">
+      <div class="main-product-image">
+        <img [src]="product.image" alt="{{product.name}}">
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="product-info-wrapper">
+        <nav class="breadcrumb-nav">Boutique / {{product.category}}</nav>
+        <h1 class="product-main-title">{{product.name}}</h1>
+        
+        <div class="rating-summary">
+          <span>Boutique : Shop Mdg </span>
+        </div>
+
+        <div class="price-section">
+          <span class="unit-price">{{product.price}} Ar</span>
+          <p class="tax-info">TVA incluse. Livraison calculée au panier.</p>
+        </div>
+
+        <p class="product-description">
+          {{product.description || 'Une description détaillée du produit mettant en avant ses caractéristiques principales et sa qualité de fabrication.'}}
+        </p>
+
+        <div class="product-specifications">
+  
+            <div class="spec-group">
+                <label class="spec-label">Couleurs disponibles</label>
+                <div class="color-options">
+                <span class="color-circle active" style="background-color: #262626;" title="Noir"></span>
+                <span class="color-circle" style="background-color: #1890ff;" title="Bleu"></span>
+                <span class="color-circle" style="background-color: #ff4d4f;" title="Rouge"></span>
+                <span class="color-circle" style="background-color: #f5f5f5; border: 1px solid #d9d9d9;" title="Blanc"></span>
+                </div>
+            </div>
+
+            <div class="spec-group mt-3">
+                <label class="spec-label">Pointures (EU)</label>
+                <div class="size-options">
+                <span class="size-box">38</span>
+                <span class="size-box active">40</span>
+                <span class="size-box">42</span>
+                <span class="size-box disabled">44</span>
+                </div>
+            </div>
+
+            <div class="spec-grid mt-4">
+                <div class="spec-item">
+                <span class="spec-key">Matière:</span>
+                <span class="spec-value">Cuir synthétique / Mesh</span>
+                </div>
+                <div class="spec-item">
+                <span class="spec-key">Saison:</span>
+                <span class="spec-value">Toutes saisons</span>
+                </div>
+            </div>
+            </div>
+
+        <hr class="mantis-divider">
+
+        <div class="purchase-actions">
+          <div class="quantity-selector">
+            <label>Quantité</label>
+            <div class="qty-input-group">
+              <button (click)="decreaseQty()">-</button>
+              <input type="number" min="1">
+              <button (click)="increaseQty()">+</button>
+            </div>
+          </div>
+
+          <button class="btn-add-cart">
+            <i class="fa-solid fa-cart-plus"></i>
+            Ajouter au panier
+          </button>
+        </div>
+
+        <div class="extra-info">
+          <span><i class="fa-solid fa-truck"></i> Livraison gratuite à partir de 100.000 Ar</span>
+        </div>
+      </div>
+      <div class="row header-content mb-5">
+          <app-footer></app-footer>
+        </div>
+    </div>
+  </div>
+
+</div>

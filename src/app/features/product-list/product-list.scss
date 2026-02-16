@@ -78,6 +78,35 @@ $primary-color: #1890ff; // Bleu Mantis standard
   font-weight: bold;
 }
 
+.product-header-row {
+  display: flex;
+  justify-content: space-between; /* Pousse les éléments aux extrémités */
+  align-items: flex-start;      /* Aligne le haut des textes */
+  gap: 10px;                     /* Évite que le texte ne colle si le nom est long */
+  margin-bottom: 12px;
+}
+
+.product-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #262626;
+  margin: 0;                     /* Supprime les marges par défaut des h3 */
+  flex: 1;                       /* Permet au titre de prendre l'espace restant */
+  line-height: 1.4;
+}
+
+.vendor-tag {
+  font-size: 0.75rem;
+  color: #1890ff;                /* Bleu Mantis */
+  background: #e6f7ff;           /* Fond bleu très clair */
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  white-space: nowrap;           /* Empêche le nom du shop de passer à la ligne */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .badge-favorities {
   position: absolute;
   top: 10px;
