@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProductFilter } from '../../shared/product-filter/product-filter';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { Header } from '../../shared/header/header';
 import { Footer } from '../../shared/footer/footer';
+import { ProductService } from '../../services/product';
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-product-list',
@@ -12,37 +14,18 @@ import { Footer } from '../../shared/footer/footer';
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',
 })
-export class ProductList {
-  products = [
-    {
-      name: 'Chaussures Sport',
-      price: 120000,
-      image: 'images/NIKE+AIR+MAX+2017.avif'
-    },
-    {
-      name: 'Sac à dos',
-      price: 80000,
-      image: 'images/sac.jpeg'
-    },
-    {
-      name: 'Montre élégante',
-      price: 150000,
-      image: 'https://via.placeholder.com/300'
-    },
-    {
-      name: 'Casque audio',
-      price: 95000,
-      image: 'https://via.placeholder.com/300'
-    },
-    {
-      name: 'T-shirt tendance',
-      price: 30000,
-      image: 'https://via.placeholder.com/300'
-    },
-    {
-      name: 'Ordinateur portable',
-      price: 2500000,
-      image: 'https://via.placeholder.com/300'
+export class ProductList implements OnInit {
+    products: Product[] = [];
+
+    constructor(private productService: ProductService) {}
+
+    ngOnInit(): void {
+      this.productService.getProducts().subscribe({
+        next: (data) => {
+          this.products = data;
+        },
+        error: (err) => console.error('Erreur SQL/Mongo:', err)
+      });
     }
-  ];
+
 }

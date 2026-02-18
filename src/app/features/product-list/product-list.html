@@ -17,7 +17,7 @@
             <a href="/product-details">
               <div class="image-container">
                 <div class="product-bg-image" 
-                    [ngStyle]="{'background-image': 'url(' + product.image + ')'}"
+                    [ngStyle]="{'background-image': 'url(images/sac.jpeg)'}"
                     role="img" 
                     [attr.aria-label]="product.name">
                 </div>
@@ -36,7 +36,7 @@
               </div>
               
               <div class="d-flex justify-content-between align-items-center mt-3">
-                <span class="price-tag">{{ product.price | number }} Ar</span>
+                <span class="price-tag">{{ product.unit_price| number }} Ar</span>
                 <div class="rating">
                     <i class="fa fa-star text-warning"></i> 
                     <small>(4.5)</small>
