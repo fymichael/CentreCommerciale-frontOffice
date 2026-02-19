@@ -16,6 +16,7 @@ import { Product } from '../../models/product.model';
 })
 export class ProductList implements OnInit {
     products: Product[] = [];
+    isLoading: boolean = true;
 
     constructor(private productService: ProductService) {}
 
@@ -23,9 +24,13 @@ export class ProductList implements OnInit {
       this.productService.getProducts().subscribe({
         next: (data) => {
           this.products = data;
+          console.log(data);
         },
-        error: (err) => console.error('Erreur SQL/Mongo:', err)
+        error: (err) => {
+          console.error('Erreur SQL/Mongo:', err);
+        }
       });
+      this.isLoading = false;
     }
 
 }

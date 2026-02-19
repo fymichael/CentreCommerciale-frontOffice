@@ -11,7 +11,14 @@
     </div>
 
     <div class="col-lg-9 col-md-8">
-      <div class="row g-3"> <div class="col-xl-4 col-lg-6 col-md-6 mb-4" *ngFor="let product of products">
+      <!-- <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center py-5">
+        <div *ngIf="isLoading" class="row g-3">
+            <div class="loader"></div>
+        </div>
+      </div> -->
+
+      <div class="row g-3"> 
+        <div class="col-xl-4 col-lg-6 col-md-6 mb-4" *ngFor="let product of products">
           <mat-card class="mantis-product-card shadow-none">
             
             <a href="/product-details">
@@ -29,24 +36,20 @@
             
 
             <mat-card-content class="pt-3">
-              <div class="category-text text-uppercase">Sport</div>
+              <div class="category-text text-uppercase">{{ product.category_id?.name }}</div>
               <div class="product-header-row">
                 <h3 class="product-title">{{ product.name }}</h3>
-                <span class="vendor-tag">Shop-Mdg</span>
+                <span class="vendor-tag">{{ product.shop_id?.name }}</span>
               </div>
               
               <div class="d-flex justify-content-between align-items-center mt-3">
                 <span class="price-tag">{{ product.unit_price| number }} Ar</span>
-                <div class="rating">
-                    <i class="fa fa-star text-warning"></i> 
-                    <small>(4.5)</small>
-                </div>
               </div>
             </mat-card-content>
 
           </mat-card>
         </div>
-
+      
       </div>
     </div>
         <div class="row header-content mb-5">
