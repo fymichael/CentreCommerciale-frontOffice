@@ -1,4 +1,4 @@
-export interface shop {
+export interface Shop {
     _id?: string;
     name: string;
     description: string;
