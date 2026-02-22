@@ -7,9 +7,9 @@ import { Product } from '../models/product.model';
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'http://localhost:5000/products';
-  private prodCategoryUrl = 'http://localhost:5000/products/category'
-  private searchUrl = 'http://localhost:5000/products/search?q=';
+  private apiUrl = 'https://huge-geckos-exist.loca.lt:5000/products';
+  private prodCategoryUrl = 'https://huge-geckos-exist.loca.lt:5000/products/category'
+  private searchUrl = 'https://huge-geckos-exist.loca.lt:5000/products/search?q=';
 
   constructor(private http: HttpClient) { }
 
@@ -26,7 +26,7 @@ export class ProductService {
 
   // GET PODUCT BY Category
   getProductsByCategory(categoryId: string): Observable<Product[]> {
-    const url = `${this.prodCategoryUrl}/${categoryId}`;
+    const url = `${this.prodCategoryUrl}/${categoryId}`; 
     
     return this.http.get<Product[]>(url);
   }
