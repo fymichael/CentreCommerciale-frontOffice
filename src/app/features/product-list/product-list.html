@@ -1,6 +1,29 @@
 <div class="container-fluid mantis-container mt-4">
     <div class="row header-content mb-5">
         <app-header></app-header>
+        <div class="mantis-results-header">
+          <div class="row align-items-center">
+              <div class="col-lg-3 col-md-12">
+                  <h3 class="results-count">
+                      <strong>134</strong> Résultats pour <span>"Peugeots"</span>
+                  </h3>
+              </div>
+
+              <div class="col-lg-9 col-md-12">
+                  <ul class="mantis-horizontal-nav">
+                      
+                      <li>Nos Recommandations</li>
+                      <li>Meilleures Ventes</li>
+                      <li *ngFor="let categorie of categories" 
+                          (click)="filterByCategory(categorie._id!)" 
+                          style="cursor: pointer;"
+                          [class.active]="categorie._id === selectedCategoryId">
+                          {{ categorie.name }}
+                      </li>                  
+                    </ul>
+              </div>
+          </div>
+      </div>
     </div>  
   <div class="row pt-3">
 
@@ -11,43 +34,45 @@
     </div>
 
     <div class="col-lg-9 col-md-8">
-      <div class="row g-3"> <div class="col-xl-4 col-lg-6 col-md-6 mb-4" *ngFor="let product of products">
-          <mat-card class="mantis-product-card shadow-none">
-            
-            <a href="/product-details">
-              <div class="image-container">
-                <div class="product-bg-image" 
-                    [ngStyle]="{'background-image': 'url(' + product.image + ')'}"
-                    role="img" 
-                    [attr.aria-label]="product.name">
-                </div>
-                
-                <div class="badge-new">Nouveau</div>
-                <mat-icon class="badge-favorities" style="font-size: 17px;">favorite_border</mat-icon>
-            </div>
-            </a>
-            
+    
+    <div *ngIf="isLoading" class="d-flex flex-column justify-content-center align-items-center py-5">
+        <div class="loader"></div>
+    </div>
 
-            <mat-card-content class="pt-3">
-              <div class="category-text text-uppercase">Sport</div>
-              <div class="product-header-row">
-                <h3 class="product-title">{{ product.name }}</h3>
-                <span class="vendor-tag">Shop-Mdg</span>
-              </div>
-              
-              <div class="d-flex justify-content-between align-items-center mt-3">
-                <span class="price-tag">{{ product.price | number }} Ar</span>
-                <div class="rating">
-                    <i class="fa fa-star text-warning"></i> 
-                    <small>(4.5)</small>
-                </div>
-              </div>
-            </mat-card-content>
-
-          </mat-card>
+    <div *ngIf="!isLoading" class="row g-3"> 
+        
+        <div class="col-12 text-center py-5" *ngIf="products.length === 0">
+            <p>Aucun produit disponible pour le moment.</p>
         </div>
 
-      </div>
+        <div class="col-xl-4 col-lg-6 col-md-6 mb-4" *ngFor="let product of products">
+            <mat-card class="mantis-product-card shadow-none">
+                <a href="/product-details">
+                    <div class="image-container">
+                        <div class="product-bg-image" 
+                            [ngStyle]="{'background-image': 'url(' + (product.image || 'images/sac.jpeg') + ')'}"
+                            role="img" 
+                            [attr.aria-label]="product.name">
+                        </div>
+                        <div class="badge-new">Nouveau</div>
+                        <mat-icon class="badge-favorities">favorite_border</mat-icon>
+                    </div>
+                </a>
+
+                <mat-card-content class="pt-3">
+                    <div class="category-text text-uppercase">{{ product.category_id.name }}</div>
+                    <div class="product-header-row">
+                        <h3 class="product-title">{{ product.name }}</h3>
+                        <span class="vendor-tag">{{ product.shop_id.name }}</span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="price-tag">{{ product.unit_price | number }} Ar</span>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
     </div>
         <div class="row header-content mb-5">
         <app-footer></app-footer>

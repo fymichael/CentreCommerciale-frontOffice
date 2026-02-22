@@ -9,13 +9,16 @@
 
     <!-- RECHERCHE -->
     <div class="search-wrapper">
-      <div class="search-input-group">
-        <mat-icon class="search-icon">search</mat-icon>
-        <input type="text" placeholder="Rechercher des produits, marques...">
-        <button class="search-btn">Rechercher</button>
-      </div>
+        <div class="search-input-group">
+            <mat-icon class="search-icon">search</mat-icon>
+            
+            <input type="text" #searchInput placeholder="Rechercher des produits, boutique...">
+            
+            <button class="search-btn" (click)="onSearch(searchInput.value)">
+            Rechercher
+            </button>
+        </div>
     </div>
-
     <!-- ACTIONS -->
     <div class="mantis-header-actions">
 
@@ -40,24 +43,4 @@
 
 
   </nav>
-    <div class="mantis-results-header">
-        <div class="row align-items-center">
-            <div class="col-lg-3 col-md-12">
-                <h3 class="results-count">
-                    <strong>134</strong> Résultats pour <span>"Peugeots"</span>
-                </h3>
-            </div>
-
-            <div class="col-lg-9 col-md-12">
-                <ul class="mantis-horizontal-nav">
-                    <li class="active">Nos Recommandations</li>
-                    <li>Meilleures Ventes</li>
-                    <li>Sports</li>
-                    <li>Automobile / Moto / VTT</li>
-                    <li>Nourritures</li>
-                    <li>Modes / Habits</li>
-                </ul>
-            </div>
-        </div>
-    </div>
 </header>
