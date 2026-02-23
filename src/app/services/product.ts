@@ -7,9 +7,11 @@ import { Product } from '../models/product.model';
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'https://huge-geckos-exist.loca.lt:5000/products';
-  private prodCategoryUrl = 'https://huge-geckos-exist.loca.lt:5000/products/category'
-  private searchUrl = 'https://huge-geckos-exist.loca.lt:5000/products/search?q=';
+
+  private apiUrl = 'https://centre-commerciale-backend.vercel.app/products';
+  private prodCategoryUrl = 'https://centre-commerciale-backend.vercel.app/products/category'
+  private searchUrl = 'https://centre-commerciale-backend.vercel.app/products/search?q=';
+  private filterUrl = 'https://centre-commerciale-backend.vercel.app/products/filter';
 
   constructor(private http: HttpClient) { }
 
@@ -34,6 +36,13 @@ export class ProductService {
   // SEARCH Product
   searchProduct(term: string): Observable<Product[]> {
     const url = `${this.searchUrl}+${term}`;
+
+    return this.http.get<Product[]>(url);
+  }
+
+  // Filter Product
+  filterProduct(minPrice: number, maxPrice: number) {
+    const url = `${this.filterUrl}?minPrice=${minPrice}&maxPrice=${maxPrice}`;
 
     return this.http.get<Product[]>(url);
   }

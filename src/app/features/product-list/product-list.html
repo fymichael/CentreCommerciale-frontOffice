@@ -4,8 +4,8 @@
         <div class="mantis-results-header">
           <div class="row align-items-center">
               <div class="col-lg-3 col-md-12">
-                  <h3 class="results-count">
-                      <strong>134</strong> Résultats pour <span>"Peugeots"</span>
+                  <h3 *ngIf="activeSearched" class="results-count" style="margin-left: 40px;">
+                      <strong> {{ products.length }} </strong> Résultats pour <span>"{{searchedTerm}}"</span>
                   </h3>
               </div>
 
@@ -28,9 +28,40 @@
   <div class="row pt-3">
 
     <div class="col-lg-3 col-md-4 mb-4">
-      <div class="filter-wrapper">
-        <app-product-filter></app-product-filter>
-      </div>
+        <div class="filter-wrapper">
+            <div class="mantis-aside-filter">
+                <div class="filter-head">
+                    <h3>Filtrer</h3>
+                    <button type="button" class="btn-reset" (click)="resetFilters()">
+                    <i class="fa fa-undo"></i> Réinitialiser
+                    </button>
+                </div>
+
+                <div class="filter-content">
+                <form #filterForm="ngForm" (ngSubmit)="applyFilters()">
+                    
+                    <div class="filter-group">
+                    <div class="label-row">
+                        <label class="group-label">Plage de prix</label>
+                    </div>
+                    <input type="number" name="minPrice" [(ngModel)]="filterValues.minPrice" placeholder="Min">
+                    <input type="number" name="maxPrice" [(ngModel)]="filterValues.maxPrice" placeholder="Max" style="margin-left: 20px;">
+                    </div>
+
+                    <div class="filter-group">
+                    <label class="group-label">Type de boutiques</label>
+                    <select name="shopType" class="mantis-select" [(ngModel)]="filterValues.condition">
+                        <option value="all">Toutes les boutiques</option>
+                        <option value="new">Recommandée</option>
+                        <option value="used">Simple</option>
+                    </select>
+                    </div>
+
+                    <button type="submit" class="btn-apply">Appliquer les filtres</button>
+                </form>
+            </div>
+            </div>
+        </div>
     </div>
 
     <div class="col-lg-9 col-md-8">

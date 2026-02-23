@@ -9,26 +9,8 @@
   <div class="filter-content">
 
     <div class="filter-group">
-      <label class="group-label">Specificites</label>
-      <div class="checkbox-list">
-        <label class="custom-check">
-          <input type="checkbox" [(ngModel)]="filters.categories.electronique">
-          <span class="checkmark"></span> Nouveau
-        </label>
-        <label class="custom-check">
-          <input type="checkbox" [(ngModel)]="filters.categories.mode">
-          <span class="checkmark"></span> En promotion
-        </label>
-        <label class="custom-check">
-          <input type="checkbox" [(ngModel)]="filters.categories.maison">
-          <span class="checkmark"></span> Favoris
-        </label>
-      </div>
-    </div>
-
-    <div class="filter-group">
       <div class="label-row">
-        <label class="group-label">Prix</label>
+        <label class="group-label">Plage de prix</label>
       </div>
       <input type="number" name="Text" placeholder="Min">
       <input type="number" name="Text" placeholder="Max" style="margin-left: 20px;">
@@ -38,7 +20,7 @@
       <label class="group-label">Type de boutiques</label>
       <select class="mantis-select" [(ngModel)]="filters.condition">
         <option value="all">Toutes les boutiques</option>
-        <option value="new">Recommandee</option>
+        <option value="new">Recommandée</option>
         <option value="used">Simple</option>
       </select>
     </div>
