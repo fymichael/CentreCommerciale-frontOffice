@@ -78,8 +78,8 @@
 
         <div class="col-xl-4 col-lg-6 col-md-6 mb-4" *ngFor="let product of products">
             <mat-card class="mantis-product-card shadow-none">
-                <a href="/product-details">
-                    <div class="image-container">
+                <a *ngIf="product._id" [routerLink]="['/product-details', product._id]">
+                        <div class="image-container">
                         <div class="product-bg-image" 
                             [ngStyle]="{'background-image': 'url(' + (product.image || 'images/sac.jpeg') + ')'}"
                             role="img" 

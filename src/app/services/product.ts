@@ -21,6 +21,13 @@ export class ProductService {
     return this.http.get<Product[]>(this.apiUrl);
   }
 
+  // GET BY ID
+  getProductsById(productId: string): Observable<Product> {
+    const url = `${this.apiUrl}/${productId}`;
+    console.log(url);
+    return this.http.get<Product>(url);
+  }
+
   // CREATE
   createProduct(formData: FormData): Observable<Product> {
     return this.http.post<Product>(this.apiUrl, formData);
