@@ -1,40 +1,61 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router'; // Importé pour l'ID
 import { Header } from '../../shared/header/header';
 import { Footer } from '../../shared/footer/footer';
+import { ProductService } from '../../services/product';
+import { FormsModule } from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core'; // Import à ajouter
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.html',
   styleUrls: ['./product-details.scss'],
-  imports: [CommonModule, Header, Footer]
+  standalone: true,
+  imports: [CommonModule, Header, Footer, FormsModule]
 })
 export class ProductDetails implements OnInit {
   
-  // Données statiques du produit (à remplacer par un appel API plus tard)
-  public product: any = {
-    id: 101,
-    name: 'Nike Air Max 2017 - Performance Edition',
-    price: 120000,
-    category: 'Sport / Chaussures',
-    image: 'images/NIKE+AIR+MAX+2017.avif',
-    description: 'La chaussure de running Nike Air Max 2017 présente une empeigne Flymesh sans coutures pour un maintien optimal et une aération maximale. L\'amorti Max Air emblématique offre une sensation de légèreté et de souplesse à chaque pas.',
-    stock: 15
-  };
-
-  // État local
+  public product: any = null; // Initialisé à null en attendant l'API
   public quantity: number = 1;
+  public isLoading: boolean = true;
 
-  constructor() { }
+  constructor(
+    private productService: ProductService,
+    private route: ActivatedRoute,
+    private cd: ChangeDetectorRef
+  ){}
 
   ngOnInit(): void {
-    // Ici, tu pourrais récupérer l'ID depuis la route pour charger le bon produit
-    // ex: this.route.snapshot.paramMap.get('id');
+    // 1. Récupérer l'ID dans l'URL
+    const productId = this.route.snapshot.paramMap.get('id');
+    console.log(productId);
+
+    if (productId) {
+      this.loadProduct(productId);
+    }
   }
 
-  // Logique du sélecteur de quantité
+  private loadProduct(id: string): void {
+    this.isLoading = true;
+    this.productService.getProductsById(id).subscribe({
+      next: (data) => {
+        this.product = data;
+        this.isLoading = false;
+        console.log(data);
+        this.cd.detectChanges();
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement du produit', err);
+        this.isLoading = false;
+        this.cd.detectChanges();
+      }
+    });
+  }
+
   public increaseQty(): void {
-    if (this.quantity < this.product.stock) {
+    // Note : On utilise 'state' ou un nombre fixe car ton type n'a pas de champ 'stock' explicite
+    if (this.quantity < 20) { 
       this.quantity++;
     }
   }
@@ -45,19 +66,45 @@ export class ProductDetails implements OnInit {
     }
   }
 
-  // Action d'ajout au panier
+  public selectedColor: string = '';
+  public selectedSize: string = '';
+
+  // Appelé quand on clique sur une couleur
+  selectColor(color: string) {
+    this.selectedColor = color;
+  }
+
+  // Appelé quand on clique sur une taille
+  selectSize(size: string) {
+    this.selectedSize = size;
+  }
+
   public addToCart(): void {
+    if (!this.product) return;
+
+    // Vérification : on force l'utilisateur à choisir s'il y a des options
+    if (this.product.color && !this.selectedColor) {
+      alert("Veuillez choisir une couleur");
+      return;
+    }
+    if (this.product.stockage && !this.selectedSize) {
+      alert("Veuillez choisir une taille/option");
+      return;
+    }
+
     const orderItem = {
-      productId: this.product.id,
+      productId: this.product._id,
       name: this.product.name,
-      unitPrice: this.product.price,
-      totalPrice: this.product.price * this.quantity,
-      qty: this.quantity
+      unitPrice: this.product.unit_price,
+      totalPrice: this.product.unit_price * this.quantity,
+      qty: this.quantity,
+      image: this.product.image,
+      // On ajoute les sélections ici !
+      color: this.selectedColor,
+      size: this.selectedSize
     };
 
-    console.log('Produit ajouté au panier :', orderItem);
-    
-    // Alerte style Mantis (tu peux utiliser un MatSnackBar ici)
-    alert(`Succès ! ${this.quantity} x ${this.product.name} ajouté(s) au panier.`);
+    console.log('Produit complet ajouté au panier :', orderItem);
+    alert(`Ajouté : ${this.product.name} (${this.selectedColor}, ${this.selectedSize})`);
   }
 }

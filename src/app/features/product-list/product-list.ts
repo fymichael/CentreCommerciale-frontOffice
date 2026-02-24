@@ -10,11 +10,11 @@ import { Category } from '../../models/category.model';
 import { CategoryService } from '../../services/category';
 import { SearchService } from '../../services/search';
 import { FormsModule } from '@angular/forms';
-
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
-  imports: [ MatCard, MatCardContent, CommonModule, MatIconModule, Header, Footer, FormsModule],
+  imports: [ MatCard, MatCardContent, CommonModule, MatIconModule, Header, Footer, FormsModule, RouterModule],
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',
 })

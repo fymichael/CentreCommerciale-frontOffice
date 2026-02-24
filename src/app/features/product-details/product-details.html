@@ -1,95 +1,101 @@
-
-<div class="mantis-product-details-container">
+<div class="mantis-product-details-container container">
     <div class="row header-content mb-5">
         <app-header></app-header>
     </div>  
 
-  <div class="row g-5">
-    
-    <div class="col-md-6">
-      <div class="main-product-image">
-        <img [src]="product.image" alt="{{product.name}}">
-      </div>
+    <div *ngIf="isLoading" class="d-flex justify-content-center py-5">
+        <div class="loader"></div>
     </div>
 
-    <div class="col-md-6">
-      <div class="product-info-wrapper">
-        <nav class="breadcrumb-nav">Boutique / {{product.category}}</nav>
-        <h1 class="product-main-title">{{product.name}}</h1>
-        
-        <div class="rating-summary">
-          <span>Boutique : Shop Mdg </span>
+    <div class="row g-5" *ngIf="!isLoading && product">
+        <div class="col-md-6">
+            <div class="main-product-image">
+                <img [src]="product.image || 'assets/images/placeholder.jpeg'" [alt]="product.name">
+            </div>
         </div>
 
-        <div class="price-section">
-          <span class="unit-price">{{product.price}} Ar</span>
-          <p class="tax-info">TVA incluse. Livraison calculée au panier.</p>
-        </div>
+        <div class="col-md-6">
+            <div class="product-info-wrapper">
+                <nav class="breadcrumb-nav">
+                    Boutique / {{ product.category_id?.name }} / {{ product.code }}
+                </nav>
+                <h1 class="product-main-title">{{ product.name }}</h1>
+                
+                <div class="rating-summary">
+                    <span>Vendu par : <strong>{{ product.shop_id?.name }}</strong></span>
+                </div>
 
-        <p class="product-description">
-          {{product.description || 'Une description détaillée du produit mettant en avant ses caractéristiques principales et sa qualité de fabrication.'}}
-        </p>
+                <div class="price-section">
+                    <span class="unit-price">{{ product.unit_price | number }} Ar</span>
+                    <p class="tax-info" *ngIf="product.discount_rate > 0">
+                        Remise de {{ product.discount_rate }}% incluse.
+                    </p>
+                </div>
 
-        <div class="product-specifications">
-  
-            <div class="spec-group">
-                <label class="spec-label">Couleurs disponibles</label>
-                <div class="color-options">
-                <span class="color-circle active" style="background-color: #262626;" title="Noir"></span>
-                <span class="color-circle" style="background-color: #1890ff;" title="Bleu"></span>
-                <span class="color-circle" style="background-color: #ff4d4f;" title="Rouge"></span>
-                <span class="color-circle" style="background-color: #f5f5f5; border: 1px solid #d9d9d9;" title="Blanc"></span>
+                <p class="product-description">
+                    {{ product.description }}
+                </p>
+
+                <div class="product-specifications">
+                    <div class="spec-group" *ngIf="product.color">
+                      <label class="spec-label">Couleurs disponibles</label>
+                      <div class="color-options">
+                          <span *ngFor="let c of product.color.split('-')" 
+                                class="color-circle" 
+                                [style.backgroundColor]="c"
+                                [class.active]="selectedColor === c"
+                                (click)="selectColor(c)"
+                                [title]="c">
+                          </span>
+                      </div>
+                  </div>
+
+                  <div class="spec-group mt-3" *ngIf="product.stockage">
+                      <label class="spec-label">Options disponibles</label>
+                      <div class="size-options">
+                          <span *ngFor="let s of product.stockage.split('-')" 
+                                class="size-box"
+                                [class.active]="selectedSize === s"
+                                (click)="selectSize(s)">
+                              {{ s }}
+                          </span>
+                      </div>
+                  </div>
+
+                    <div class="spec-grid mt-4">
+                        <div class="spec-item">
+                            <span class="spec-key">Matière :</span>
+                            <span class="spec-value">{{ product.build_material || 'N/A' }}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-key">Qualité :</span>
+                            <span class="spec-value">{{ product.quality }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="mantis-divider">
+
+                <div class="purchase-actions">
+                    <div class="quantity-selector">
+                        <label>Quantité</label>
+                        <div class="qty-input-group">
+                            <button type="button" (click)="decreaseQty()">-</button>
+                            <input type="number" [(ngModel)]="quantity" readonly>
+                            <button type="button" (click)="increaseQty()">+</button>
+                        </div>
+                    </div>
+
+                    <button class="btn-add-cart" (click)="addToCart()">
+                        <i class="fa-solid fa-cart-plus"></i>
+                        Ajouter au panier
+                    </button>
                 </div>
             </div>
-
-            <div class="spec-group mt-3">
-                <label class="spec-label">Pointures (EU)</label>
-                <div class="size-options">
-                <span class="size-box">38</span>
-                <span class="size-box active">40</span>
-                <span class="size-box">42</span>
-                <span class="size-box disabled">44</span>
-                </div>
-            </div>
-
-            <div class="spec-grid mt-4">
-                <div class="spec-item">
-                <span class="spec-key">Matière:</span>
-                <span class="spec-value">Cuir synthétique / Mesh</span>
-                </div>
-                <div class="spec-item">
-                <span class="spec-key">Saison:</span>
-                <span class="spec-value">Toutes saisons</span>
-                </div>
-            </div>
-            </div>
-
-        <hr class="mantis-divider">
-
-        <div class="purchase-actions">
-          <div class="quantity-selector">
-            <label>Quantité</label>
-            <div class="qty-input-group">
-              <button (click)="decreaseQty()">-</button>
-              <input type="number" min="1">
-              <button (click)="increaseQty()">+</button>
-            </div>
-          </div>
-
-          <button class="btn-add-cart">
-            <i class="fa-solid fa-cart-plus"></i>
-            Ajouter au panier
-          </button>
-        </div>
-
-        <!-- <div class="extra-info">
-          <span><i class="fa-solid fa-truck"></i> Livraison gratuite à partir de 100.000 Ar</span>
-        </div> -->
-      </div>
-      <div class="row header-content mb-5">
-          <app-footer></app-footer>
         </div>
     </div>
-  </div>
 
+    <div class="row mt-5">
+        <app-footer></app-footer>
+    </div>
 </div>
