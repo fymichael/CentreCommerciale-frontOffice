@@ -1,21 +1,37 @@
-<div class="mantis-cart-container">
-  <div class="container">
-
+<div class="mantis-cart-container container">
     <div class="row header-content mb-4">
         <app-header></app-header>
     </div>  
 
-    <h2 class="cart-title">Gestion des commandes <span>(2 articles)</span></h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="cart-title m-0">Gestion des commandes <span>(2 articles)</span></h2>
+        
+        <button class="btn-validate" *ngIf="showGlobalValidate">
+            <mat-icon class="inline-icon">check_circle</mat-icon>
+            Valider le paiement des articles sélectionnés
+        </button>
+    </div>
 
     <div class="row">
+      <div class="order-buttons-group mb-3">
+        <button class="btn-track" routerLink="/order-tracking">
+            <mat-icon class="inline-icon">local_shipping</mat-icon>
+            Suivre le colis
+        </button>
+      </div>
+
       <div class="col-12">
         <div class="cart-card">
           
-          <div class="cart-item">
+          <div class="cart-item d-flex align-items-center">
+            <div class="item-selection me-3">
+                <input type="checkbox" [(ngModel)]="item1Selected" class="mantis-checkbox">
+            </div>
+
             <div class="item-image">
               <img src="images/NIKE+AIR+MAX+2017.avif" alt="Produit">
             </div>
-            <div class="item-details">
+            <div class="item-details flex-grow-1">
               <div class="item-main-info">
                 <div>
                   <h4>Nike Air Force 1 '07</h4>
@@ -36,16 +52,6 @@
                 </div>
                 
                 <div class="action-buttons-group">
-                    <button class="btn-track" routerLink="/order-tracking">
-                        <mat-icon class="inline-icon">local_shipping</mat-icon>
-                        Suivre le colis
-                    </button>
-
-                    <button class="btn-validate">
-                        <mat-icon class="inline-icon">check_circle_outline</mat-icon>
-                        Valider le paiement
-                    </button>
-
                     <button class="btn-delete-icon" title="Supprimer">
                         <mat-icon>delete_outline</mat-icon>
                     </button>
@@ -56,11 +62,15 @@
 
           <hr class="divider">
 
-          <div class="cart-item">
+          <div class="cart-item d-flex align-items-center">
+            <div class="item-selection me-3">
+                <input type="checkbox" [(ngModel)]="item2Selected" class="mantis-checkbox">
+            </div>
+
             <div class="item-image">
               <img src="images/NIKE+AIR+MAX+2017.avif" alt="Produit">
             </div>
-            <div class="item-details">
+            <div class="item-details flex-grow-1">
               <div class="item-main-info">
                 <div>
                   <h4>iPhone 15 Pro Max</h4>
@@ -83,14 +93,7 @@
                 <div class="action-buttons-group">
                     <button class="btn-track" routerLink="/order-tracking">
                         <mat-icon class="inline-icon">local_shipping</mat-icon>
-                        Suivre le colis
                     </button>
-
-                    <button class="btn-validate">
-                        <mat-icon class="inline-icon">check_circle_outline</mat-icon>
-                        Valider le paiement
-                    </button>
-
                     <button class="btn-delete-icon" title="Supprimer">
                         <mat-icon>delete_outline</mat-icon>
                     </button>
@@ -106,5 +109,4 @@
     <div class="row header-content mt-5">
         <app-footer></app-footer>
     </div>
-  </div>
 </div>
