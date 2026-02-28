@@ -1,104 +1,83 @@
-<div class="mantis-cart-container">
-  <div class="container">
-
+<div class="mantis-cart-container container">
     <div class="row header-content mb-4">
         <app-header></app-header>
     </div>  
 
-    <h2 class="cart-title">Gestion des commandes <span>(2 articles)</span></h2>
+    <div *ngIf="isLoading" class="d-flex justify-content-center py-5">
+      <div class="loader"></div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4" *ngIf="!isLoading && Orders.length > 0">
+        <h2 class="cart-title m-0">Gestion des commandes <span>({{ Orders.length }} articles)</span></h2>
+        
+        <button class="btn-validate" (click)="validateOrder()" *ngIf="UnpaidOrders.length > 0">
+            <mat-icon class="inline-icon">check_circle</mat-icon>
+            Valider le paiement des articles
+        </button>
+    </div>
 
     <div class="row">
+      <div class="order-buttons-group mb-3">
+        <button class="btn-track" routerLink="/order-tracking">
+            <mat-icon class="inline-icon">local_shipping</mat-icon>
+            Suivre le colis
+        </button>
+      </div>
+
       <div class="col-12">
         <div class="cart-card">
           
-          <div class="cart-item">
+            <div class="cart-item d-flex align-items-center" *ngFor="let order of Orders; trackBy: trackByFn">
             <div class="item-image">
-              <img src="images/NIKE+AIR+MAX+2017.avif" alt="Produit">
+              <img src="{{ order.product_id.image }}" alt="Produit">
             </div>
-            <div class="item-details">
-              <div class="item-main-info">
-                <div>
-                  <h4>Nike Air Force 1 '07</h4>
-                  <p class="item-meta">Taille: 42 | Couleur: Blanc</p>
-                  <span class="status-badge status-pending">En attente</span>
-                </div>
-                <div class="text-end">
-                  <span class="item-price-unit">150 000 Ar</span>
-                  <div class="item-total-price mt-1">150 000 Ar</div>
-                </div>
-              </div>
-              
-              <div class="item-actions-row">
-                <div class="qty-selector">
-                  <button>-</button>
-                  <input type="text" value="1" readonly>
-                  <button>+</button>
+              <div class="item-details flex-grow-1">
+                <div class="item-main-info">
+                  <div>
+                    <h4>{{ order.product_id.name }}</h4>
+                    <p class="item-meta d-flex align-items-center gap-2">
+                      <span>Variant: {{ order?.specifications ? order.specifications!.split('-')[1] : 'Non spécifiée' }}</span>
+                      |
+                      <span class="d-flex align-items-center">
+                        Couleur: 
+                        <ng-container *ngIf="order?.specifications && order.specifications!.split('-')[1]; else noColor">
+                          <span 
+                            class="ms-2 rounded-circle border shadow-sm" 
+                            [style.backgroundColor]="order.specifications!.split('-')[0]"
+                            style="width: 18px; height: 18px; display: inline-block;"
+                            [title]="order.specifications!.split('-')[0]">
+                          </span>
+                        </ng-container>
+                        <ng-template #noColor> Non spécifiée</ng-template>
+                      </span>
+                    </p>          
+                    <span class="status-badge" [ngClass]="getStatusConfig(order.state).class">
+                      {{ getStatusConfig(order.state).label }}
+                    </span>                  
+                  </div>
+                  <div class="text-end">
+                    <span class="item-price-unit">{{ order.unit_price }} Ar</span>
+                    <div class="item-total-price mt-1">{{ order.quantity * order.unit_price }} Ar</div>
+                  </div>
                 </div>
                 
-                <div class="action-buttons-group">
-                    <button class="btn-track" routerLink="/order-tracking">
-                        <mat-icon class="inline-icon">local_shipping</mat-icon>
-                        Suivre le colis
-                    </button>
-
-                    <button class="btn-validate">
-                        <mat-icon class="inline-icon">check_circle_outline</mat-icon>
-                        Valider le paiement
-                    </button>
-
-                    <button class="btn-delete-icon" title="Supprimer">
-                        <mat-icon>delete_outline</mat-icon>
-                    </button>
+                <div class="item-actions-row">
+                  <div class="qty-selector" *ngIf="order.state === 1">
+                    <button (click)="decreaseQty(order)">-</button>
+                    <input type="text" value="{{ order.quantity }}" readonly>
+                    <button (click)="increaseQty(order)">+</button>
+                  </div>
+                  
+                  <div class="action-buttons-group">
+                      <button class="btn-delete-icon" title="Supprimer" (click)="deleteOrder(order._id!)" *ngIf="order.state === 1">
+                          <mat-icon>delete_outline</mat-icon>
+                      </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
           <hr class="divider">
-
-          <div class="cart-item">
-            <div class="item-image">
-              <img src="images/NIKE+AIR+MAX+2017.avif" alt="Produit">
-            </div>
-            <div class="item-details">
-              <div class="item-main-info">
-                <div>
-                  <h4>iPhone 15 Pro Max</h4>
-                  <p class="item-meta">256GB | Titane Naturel</p>
-                  <span class="status-badge status-shipped">Expédié</span>
-                </div>
-                <div class="text-end">
-                  <span class="item-price-unit">4 500 000 Ar</span>
-                  <div class="item-total-price mt-1">4 500 000 Ar</div>
-                </div>
-              </div>
-              
-              <div class="item-actions-row">
-                <div class="qty-selector">
-                  <button>-</button>
-                  <input type="text" value="1" readonly>
-                  <button>+</button>
-                </div>
-                
-                <div class="action-buttons-group">
-                    <button class="btn-track" routerLink="/order-tracking">
-                        <mat-icon class="inline-icon">local_shipping</mat-icon>
-                        Suivre le colis
-                    </button>
-
-                    <button class="btn-validate">
-                        <mat-icon class="inline-icon">check_circle_outline</mat-icon>
-                        Valider le paiement
-                    </button>
-
-                    <button class="btn-delete-icon" title="Supprimer">
-                        <mat-icon>delete_outline</mat-icon>
-                    </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
@@ -106,5 +85,4 @@
     <div class="row header-content mt-5">
         <app-footer></app-footer>
     </div>
-  </div>
 </div>

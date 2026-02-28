@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router'; // Importé pour l'ID
+import { ActivatedRoute } from '@angular/router';
 import { Header } from '../../shared/header/header';
 import { Footer } from '../../shared/footer/footer';
 import { ProductService } from '../../services/product';
 import { FormsModule } from '@angular/forms';
-import { ChangeDetectorRef } from '@angular/core'; // Import à ajouter
+import { ChangeDetectorRef } from '@angular/core';
+import { InvoiceService } from '../../services/invoice';
 
 @Component({
   selector: 'app-product-details',
@@ -23,7 +24,8 @@ export class ProductDetails implements OnInit {
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private invoiceService: InvoiceService
   ){}
 
   ngOnInit(): void {
@@ -53,6 +55,12 @@ export class ProductDetails implements OnInit {
     });
   }
 
+  private async getNextReference(): Promise<string> {
+    var nextRef = await this.invoiceService.getNextInvoiceReference();
+    console.log('Référence suivante obtenue :', nextRef);
+    return nextRef
+  }
+
   public increaseQty(): void {
     // Note : On utilise 'state' ou un nombre fixe car ton type n'a pas de champ 'stock' explicite
     if (this.quantity < 20) { 
@@ -67,7 +75,7 @@ export class ProductDetails implements OnInit {
   }
 
   public selectedColor: string = '';
-  public selectedSize: string = '';
+  public selectedVariant: string = '';
 
   // Appelé quand on clique sur une couleur
   selectColor(color: string) {
@@ -76,10 +84,10 @@ export class ProductDetails implements OnInit {
 
   // Appelé quand on clique sur une taille
   selectSize(size: string) {
-    this.selectedSize = size;
+    this.selectedVariant = size;
   }
 
-  public addToCart(): void {
+  public async addToCart(): Promise<void> {
     if (!this.product) return;
 
     // Vérification : on force l'utilisateur à choisir s'il y a des options
@@ -87,24 +95,24 @@ export class ProductDetails implements OnInit {
       alert("Veuillez choisir une couleur");
       return;
     }
-    if (this.product.stockage && !this.selectedSize) {
-      alert("Veuillez choisir une taille/option");
+    if (this.product.variant && !this.selectedVariant) {
+      alert("Veuillez choisir une variante");
       return;
     }
 
     const orderItem = {
-      productId: this.product._id,
-      name: this.product.name,
-      unitPrice: this.product.unit_price,
-      totalPrice: this.product.unit_price * this.quantity,
-      qty: this.quantity,
-      image: this.product.image,
+      reference: await this.getNextReference(),
+      product_id: this.product._id,
+      unit_price: this.product.unit_price,
+      quantity: this.quantity,
+      user_id: '699f58ff5c3c546996f2844c',
       // On ajoute les sélections ici !
-      color: this.selectedColor,
-      size: this.selectedSize
+      specifications: `${this.selectedColor} - ${this.selectedVariant}`,
+      state: 1
     };
 
     console.log('Produit complet ajouté au panier :', orderItem);
-    alert(`Ajouté : ${this.product.name} (${this.selectedColor}, ${this.selectedSize})`);
+    this.invoiceService.createInvoice(orderItem);
+    alert(`Ajouté : ${this.product.name} (${this.selectedColor}, ${this.selectedVariant})`);
   }
 }

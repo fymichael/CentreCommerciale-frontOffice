@@ -50,12 +50,12 @@
                       </div>
                   </div>
 
-                  <div class="spec-group mt-3" *ngIf="product.stockage">
+                  <div class="spec-group mt-3" *ngIf="product.variant">
                       <label class="spec-label">Options disponibles</label>
                       <div class="size-options">
-                          <span *ngFor="let s of product.stockage.split('-')" 
+                          <span *ngFor="let s of product.variant.split('-')" 
                                 class="size-box"
-                                [class.active]="selectedSize === s"
+                                [class.active]="selectedVariant === s"
                                 (click)="selectSize(s)">
                               {{ s }}
                           </span>
