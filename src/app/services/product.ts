@@ -49,6 +49,7 @@ export class ProductService {
 
   // Filter Product
   filterProduct(minPrice: number, maxPrice: number) {
+    console.log(`${this.filterUrl}?minPrice=${minPrice}&maxPrice=${maxPrice}`);
     const url = `${this.filterUrl}?minPrice=${minPrice}&maxPrice=${maxPrice}`;
 
     return this.http.get<Product[]>(url);

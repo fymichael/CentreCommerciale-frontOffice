@@ -29,8 +29,7 @@ export class ProductList implements OnInit {
 
     filterValues = {
       minPrice: 0,
-      maxPrice: 0,
-      condition: 'all'
+      maxPrice: 0
     };
 
     constructor(private productService: ProductService, private cd: ChangeDetectorRef, private categoryService: CategoryService, private searchService: SearchService) {}
@@ -41,6 +40,7 @@ export class ProductList implements OnInit {
         this.activeSearched = true;
         this.searchedTerm = term;
       });
+
       this.loadCategories();
       this.productService.getProducts().subscribe({
         next: (data) => {
@@ -91,12 +91,13 @@ export class ProductList implements OnInit {
 
     executeSearch(term: string) {
       if (!term.trim()) return;
+      this.isLoading = true;
 
       console.log('Recherche en cours pour :', term);
       
       this.productService.searchProduct(term).subscribe({
-        next: (results: Product[]) => {
-          this.products = results;
+        next: (results: any) => {
+          this.products = results.data;
           this.cd.detectChanges();
           this.isLoading = false;
         },
@@ -106,21 +107,24 @@ export class ProductList implements OnInit {
 
     applyFilters() {
       console.log('Filtres envoyés au backend :', this.filterValues);
-      
+      this.isLoading = true;
       this.productService.filterProduct(this.filterValues.minPrice, this.filterValues.maxPrice).subscribe({
-          next: (data) => {
-            this.products = data;
+          next: (res: any) => {
+            this.products = res.data; 
+            
             this.isLoading = false;
             this.cd.detectChanges();
-            console.log(data);
+            
+            console.log('Produits filtrés : ', res.data);
+            
           },
           error: (err) => {
-            console.error('Erreur SQL/Mongo:', err);
-            this.cd.detectChanges();
+            console.error('Erreur :', err);
             this.isLoading = false;
+            this.cd.detectChanges();
           }
         });
-  }
+    }
 
   filters = {
     search: '',
