@@ -12,8 +12,6 @@
               <div class="col-lg-9 col-md-12">
                   <ul class="mantis-horizontal-nav">
                       
-                      <li>Nos Recommandations</li>
-                      <li>Meilleures Ventes</li>
                       <li *ngFor="let categorie of categories" 
                           (click)="filterByCategory(categorie._id!)" 
                           style="cursor: pointer;"
@@ -46,15 +44,6 @@
                     </div>
                     <input type="number" name="minPrice" [(ngModel)]="filterValues.minPrice" placeholder="Min">
                     <input type="number" name="maxPrice" [(ngModel)]="filterValues.maxPrice" placeholder="Max" style="margin-left: 20px;">
-                    </div>
-
-                    <div class="filter-group">
-                    <label class="group-label">Type de boutiques</label>
-                    <select name="shopType" class="mantis-select" [(ngModel)]="filterValues.condition">
-                        <option value="all">Toutes les boutiques</option>
-                        <option value="new">Recommandée</option>
-                        <option value="used">Simple</option>
-                    </select>
                     </div>
 
                     <button type="submit" class="btn-apply">Appliquer les filtres</button>

@@ -1,8 +1,4 @@
 import { Routes } from '@angular/router';
-import { ProductList } from './features/product-list/product-list';
-import { ProductDetails } from './features/product-details/product-details';
-import { CartManagment } from './features/cart-managment/cart-managment';
-import { OrderManagment } from './features/order-managment/order-managment';
 
 export const routes: Routes = [
     {
@@ -12,15 +8,19 @@ export const routes: Routes = [
     },
     {
         path: 'Home',
-        component: ProductList
+        // Charge le composant UNIQUEMENT quand l'utilisateur va sur /Home
+        loadComponent: () => import('./features/product-list/product-list').then(m => m.ProductList)
     },
-    { path: 'product-details/:id', component: ProductDetails },
+    { 
+        path: 'product-details/:id', 
+        loadComponent: () => import('./features/product-details/product-details').then(m => m.ProductDetails) 
+    },
     {
         path: 'cart',
-        component: CartManagment
+        loadComponent: () => import('./features/cart-managment/cart-managment').then(m => m.CartManagment)
     },
     {
         path: 'order-tracking',
-        component: OrderManagment
+        loadComponent: () => import('./features/order-managment/order-managment').then(m => m.OrderManagment)
     }
 ];
