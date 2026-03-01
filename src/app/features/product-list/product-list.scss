@@ -1,12 +1,14 @@
-/* Palette Mantis */
 $border-color: #f0f0f0;
 $text-main: #262626;
 $text-secondary: #8c8c8c;
 $primary-color: #1890ff;
+$bg-light: #fafafa;
 
-.header-content {
-    margin-bottom: 50px;
-}
+// Utilitaires réutilisables
+%flex-center { display: flex; align-items: center; justify-content: center; }
+
+.header-content { margin-bottom: 50px; }
+
 .mantis-product-card {
   border: 1px solid $border-color;
   border-radius: 8px;
@@ -17,327 +19,123 @@ $primary-color: #1890ff;
     border-color: transparent;
     box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.15);
     transform: translateY(-4px);
+    .product-bg-image { transform: scale(1.05); }
   }
 
   .image-container {
+    @extend %flex-center;
     position: relative;
-    background: #fafafa;
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: $bg-light;
+    height: 220px;
+    width: 100%;
+    overflow: hidden;
+  }
 
-    img {
-      //max-height: 100%;
-      width: 500px;
-      height: 500px;
-      object-fit: contain;
-      padding: 20px;
-    }
+  .product-bg-image {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain; 
+    transition: transform 0.3s ease;
   }
 
   .product-title {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: $text-main;
-    margin: 4px 0;
+    margin: 0;
+    flex: 1;
+    line-height: 1.4;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
-  .category-text {
-    font-size: 0.75rem;
-    color: $text-secondary;
-    letter-spacing: 0.5px;
-  }
-
-  .price-tag {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: $text-main;
-  }
 }
 
-.mantis-btn {
-  border-radius: 4px !important;
-  text-transform: none;
-  font-weight: 500;
-  height: 40px;
-}
-
-.badge-new {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #1890ff; // Vert succès Mantis
-  color: white;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  font-weight: bold;
-}
-
-.product-header-row {
-  display: flex;
-  justify-content: space-between; /* Pousse les éléments aux extrémités */
-  align-items: flex-start;      /* Aligne le haut des textes */
-  gap: 10px;                     /* Évite que le texte ne colle si le nom est long */
-  margin-bottom: 12px;
-}
-
-.product-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #262626;
-  margin: 0;                     /* Supprime les marges par défaut des h3 */
-  flex: 1;                       /* Permet au titre de prendre l'espace restant */
-  line-height: 1.4;
-}
+.category-text { font-size: 0.75rem; color: $text-secondary; letter-spacing: 0.5px; }
+.price-tag { font-size: 1.1rem; font-weight: 700; color: $text-main; }
 
 .vendor-tag {
-  font-size: 0.75rem;
-  color: #1890ff;                /* Bleu Mantis */
-  background: #e6f7ff;           /* Fond bleu très clair */
+  font-size: 0.7rem;
+  color: $primary-color;
+  background: #e6f7ff;
   padding: 2px 8px;
   border-radius: 4px;
   font-weight: 500;
-  white-space: nowrap;           /* Empêche le nom du shop de passer à la ligne */
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
-.badge-favorities {
+// Badges
+.badge-new, .badge-favorities {
   position: absolute;
   top: 10px;
-  left: 10px;
   padding: 2px 8px;
   border-radius: 4px;
   font-size: 0.7rem;
   font-weight: bold;
 }
+.badge-new { right: 10px; background: $primary-color; color: white; }
+.badge-favorities { left: 10px; color: $text-secondary; }
 
-.image-container {
-  position: relative;
-  width: 100%;
-  height: 200px; // Définit une hauteur fixe pour l'unité visuelle
-  background-color: #fafafa; // Fond gris léger comme sur ton modèle
-  overflow: hidden;
-  border-radius: 8px 8px 0 0;
-}
-
-.product-bg-image {
-  width: 500px;
-  height: 500px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  
-  /* 'contain' pour voir toute la chaussure sans la couper */
-  /* 'cover' si tu veux que l'image remplisse tout le cadre */
-  background-size: contain; 
-  
-  transition: transform 0.3s ease;
-}
-
-/* Effet de zoom au survol typique de Mantis */
-.image-container:hover .product-bg-image {
-  transform: scale(1.1);
-}
-
-.mantis-results-header {
-    background: #fff;
-    padding: 15px 0;
-    border-bottom: 1px solid #f0f0f0;
-    margin-bottom: 25px;
-    font-family: 'Public Sans', sans-serif;
-}
-
-/* Style du compteur de résultats */
-.results-count {
-    font-size: 16px;
-    color: #8c8c8c;
-    margin: 0;
-}
-
-.results-count strong {
-    color: #262626;
-}
-
-.results-count span {
-    color: #1890ff;
-    font-weight: 600;
-}
-
-/* Navigation horizontale */
+// Nav Horizontale
 .mantis-horizontal-nav {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    overflow-x: auto; /* Permet le scroll sur mobile si trop long */
-    white-space: nowrap;
-}
+  display: flex;
+  list-style: none;
+  padding: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
 
-.mantis-horizontal-nav li {
+  li {
     padding: 10px 15px;
     font-size: 14px;
     font-weight: 500;
     color: #595959;
     cursor: pointer;
     position: relative;
-    transition: all 0.3s ease;
+    &.active {
+      color: $primary-color;
+      font-weight: 600;
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: $primary-color;
+      }
+    }
+  }
 }
 
-/* L'effet de survol et l'état actif */
-.mantis-horizontal-nav li:hover {
-    color: #1890ff;
-}
-
-.mantis-horizontal-nav li.active {
-    color: #1890ff;
-    font-weight: 600;
-}
-
-/* La petite barre bleue sous l'élément actif style Mantis Tabs */
-.mantis-horizontal-nav li.active::after {
-    content: "";
-    position: absolute;
-    bottom: -2px; /* Colle à la bordure du header */
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: #1890ff;
-}
-
-/* Cacher la scrollbar pour un look plus propre sur Chrome/Safari */
-.mantis-horizontal-nav::-webkit-scrollbar {
-    display: none;
-}
-
-
-// filtre
+// Filtres
 .mantis-aside-filter {
   background: #fff;
-  border: 1px solid #f0f0f0;
+  border: 1px solid $border-color;
   border-radius: 4px;
-  font-family: 'Public Sans', sans-serif;
-}
-
-.filter-head {
-  padding: 15px 20px;
-  border-bottom: 1px solid #f0f0f0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.filter-head h3 {
-  font-size: 14px;
-  text-transform: uppercase;
-  font-weight: 700;
-  margin: 0;
-  color: #262626;
-  letter-spacing: 0.5px;
-}
-
-.btn-reset {
-  background: none;
-  border: none;
-  color: #1890ff;
-  font-size: 12px;
-  cursor: pointer;
-  padding: 0;
-}
-
-.filter-content {
-  padding: 20px;
-}
-
-.filter-group {
-  margin-bottom: 25px;
-}
-
-.group-label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: #8c8c8c;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-
-/* SEARCH BOX CUSTOM */
-.search-box {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.search-box i {
-  position: absolute;
-  left: 12px;
-  color: #bfbfbf;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 10px 10px 10px 35px;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  font-size: 14px;
-  outline: none;
-}
-
-.search-box input:focus { border-color: #1890ff; }
-
-/* CHECKBOX CUSTOM */
-.checkbox-list { display: flex; flex-direction: column; gap: 10px; }
-
-.custom-check {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  font-size: 14px;
-  color: #595959;
-}
-
-.custom-check input { margin-right: 10px; width: 16px; height: 16px; accent-color: #1890ff; }
-
-/* SELECT & RANGE */
-.mantis-select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  background: #fafafa;
-  outline: none;
-}
-
-.mantis-range {
-  width: 100%;
-  accent-color: #1890ff;
-}
-
-.value-tag {
-  background: #e6f7ff;
-  color: #1890ff;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  border-radius: 4px;
+  .filter-head { padding: 15px 20px; border-bottom: 1px solid $border-color; @extend %flex-center; justify-content: space-between; }
+  .filter-content { padding: 20px; }
 }
 
 .btn-apply {
-  width: calc(100% - 40px);
-  margin: 0 20px 20px;
-  background: #1890ff;
+  width: 100%;
+  background: $primary-color;
   color: #fff;
   border: none;
-  padding: 12px;
+  padding: 10px;
   border-radius: 4px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  &:hover { background: #096dd9; }
 }
 
-.btn-apply:hover { background: #096dd9; }
+input[type="number"] {
+  width: 80px;
+  padding: 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+}

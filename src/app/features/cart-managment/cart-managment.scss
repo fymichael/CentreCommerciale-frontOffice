@@ -1,3 +1,9 @@
+// Variables pour éviter les répétitions
+$blue: #1890ff;
+$green: #52c41a;
+$red: #ff4d4f;
+$border-color: #f0f0f0;
+
 .mantis-cart-container {
   background-color: #f8f9fa;
   padding: 40px 0;
@@ -8,28 +14,24 @@
 .cart-title {
   font-size: 20px;
   font-weight: 700;
-  margin-bottom: 25px;
   color: #262626;
-}
-
-.cart-title span {
-  font-weight: 400;
-  color: #8c8c8c;
-  font-size: 16px;
+  span { font-weight: 400; color: #8c8c8c; font-size: 16px; }
 }
 
 .cart-card {
   background: #fff;
-  border: 1px solid #f0f0f0;
+  border: 1px solid $border-color;
   border-radius: 8px;
   padding: 24px;
 }
 
-/* Articles */
 .cart-item {
   display: flex;
   gap: 20px;
-  align-items: flex-start;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid $border-color;
+  &:last-child { border-bottom: none; }
 }
 
 .item-image {
@@ -38,152 +40,31 @@
   background: #fafafa;
   border-radius: 4px;
   padding: 10px;
+  img { width: 100%; height: 100%; object-fit: contain; }
 }
 
-.item-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.item-details {
-  flex: 1;
-}
+.item-details { flex: 1; }
 
 .item-main-info {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  h4 { font-size: 15px; font-weight: 600; margin: 0; }
+  .item-meta { font-size: 12px; color: #8c8c8c; }
+  .item-price-unit { font-size: 14px; font-weight: 600; color: #595959; }
+  .item-total-price { font-weight: 700; color: $blue; }
 }
 
-.item-main-info h4 {
-  font-size: 15px;
-  font-weight: 600;
-  margin: 0;
-}
-
-.item-meta {
-  font-size: 12px;
-  color: #8c8c8c;
-  margin: 4px 0 0;
-}
-
-.item-price-unit {
-  font-size: 14px;
-  font-weight: 600;
-  color: #595959;
-}
-
-/* Actions */
-.item-actions {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.qty-selector {
-  display: flex;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.qty-selector button {
-  border: none;
-  background: #f5f5f5;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-}
-
-.qty-selector input {
-  width: 40px;
-  text-align: center;
-  border: none;
-  border-left: 1px solid #d9d9d9;
-  border-right: 1px solid #d9d9d9;
-  font-size: 13px;
-}
-
-.btn-delete {
-  background: none;
-  border: none;
-  color: #ff4d4f;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.item-total-price {
-  margin-left: auto;
-  font-weight: 700;
-  color: #1890ff;
-}
-
-/* Summary Card */
-.summary-card h3 {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 20px;
-}
-
-.summary-line {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  font-size: 14px;
-  color: #595959;
-}
-
-.free-shipping { color: #52c41a; font-weight: 600; }
-
-.total-line {
-  font-size: 18px;
-  font-weight: 700;
-  color: #262626;
-  margin: 20px 0;
-}
-
-.btn-checkout {
-  width: 100%;
-  background: #1890ff;
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.secure-info {
-  text-align: center;
-  font-size: 12px;
-  color: #bfbfbf;
-  margin-top: 15px;
-}
-
-/* Alignement des actions sur une ligne */
 .item-actions-row {
   display: flex;
   justify-content: space-between;
+  margin-top: 15px;
+}
+
+/* Groupement des styles de boutons */
+.btn-track, .btn-validate {
+  display: inline-flex;
   align-items: center;
-  margin-top: 20px;
-}
-
-.action-buttons-group {
-  display: flex;
-  gap: 10px;
-}
-
-.order-buttons-group {
-  margin-left: 87.5%;
-  margin-bottom: 20px;
-}
-
-/* Bouton Suivi (Ghost Style) */
-.btn-track {
-  background: #fff;
-  border: 1px solid #d9d9d9;
-  color: #595959;
+  gap: 8px;
   padding: 8px 16px;
   border-radius: 4px;
   font-size: 13px;
@@ -192,160 +73,51 @@
   transition: all 0.3s;
 }
 
-.btn-track:hover {
-  border-color: #1890ff;
-  color: #1890ff;
+.btn-track {
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  color: #595959;
+  &:hover { border-color: $blue; color: $blue; }
 }
 
-/* Bouton Valider (Success Style) */
 .btn-validate {
-  background: #52c41a;
-  border: 1px solid #52c41a;
+  background: $green;
+  border: 1px solid $green;
   color: #fff;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: opacity 0.3s;
+  &:hover { opacity: 0.8; }
 }
 
-.btn-validate:hover {
-  opacity: 0.8;
+.qty-selector {
+  display: flex;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  button { border: none; background: #f5f5f5; width: 30px; height: 30px; }
+  input { width: 40px; text-align: center; border: none; border-left: 1px solid #d9d9d9; border-right: 1px solid #d9d9d9; }
 }
 
 .btn-delete-icon {
   background: #fff1f0;
   border: 1px solid #ffa39e;
-  color: #ff4d4f;
+  color: $red;
   width: 36px;
   height: 36px;
   border-radius: 4px;
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover { background: $red; color: #fff; }
 }
 
-/* Badges de statut */
+/* Badges de statut optimisés */
 .status-badge {
   font-size: 11px;
   padding: 2px 8px;
   border-radius: 10px;
   font-weight: 600;
-  display: inline-block;
-  margin-top: 8px;
+  border: 1px solid transparent;
 }
-
 .status-pending { background: #fff7e6; color: #faad14; border-color: #ffe58f; }
-.status-paymentValidate { background: #f6ffed; color: #52c41a; border-color: #b7eb8f; }
-.status-preparation { background: #e6f7ff; color: #1890ff; border-color: #91d5ff; }
+.status-paymentValidate { background: #f6ffed; color: $green; border-color: #b7eb8f; }
 .status-shipped { background: #f0f5ff; color: #2f54eb; border-color: #adc6ff; }
-.status-canceled { background: #fff1f0; color: #f5222d; border-color: #ffa39e; }
-.status-delivered { background: #f6ffed; color: #52c41a; border-color: #b7eb8f; }
-.status-unknown { background: #f5f5f5; color: #595959; border-color: #d9d9d9; }
 
-/* Total en bas */
-.cart-footer-summary {
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 20px;
-  border-top: 2px solid #f0f0f0;
-}
-
-.total-display {
-  text-align: right;
-}
-
-.total-display span { font-size: 16px; color: #8c8c8c; }
-.total-display .amount {
-  font-size: 24px;
-  font-weight: 700;
-  color: #262626;
-  display: block;
-}
-
-/* Conteneur des icônes pour l'alignement avec le texte */
-.inline-icon {
-  font-size: 18px !important; /* Taille réduite pour plus d'élégance */
-  width: 18px !important;
-  height: 18px !important;
-  margin-right: 8px; /* Espace entre l'icône et le texte */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Ajustement spécifique pour le bouton icône seule (supprimer) */
-.btn-delete-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fff1f0;
-  border: 1px solid #ffa39e;
-  color: #ff4d4f;
-  width: 36px;
-  height: 36px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-delete-icon mat-icon {
-  font-size: 20px !important;
-  width: 20px !important;
-  height: 20px !important;
-}
-
-.btn-delete-icon:hover {
-  background: #ff4d4f;
-  color: #fff;
-}
-
-/* Bouton Suivre et Valider (Flexbox pour aligner l'icône) */
-.btn-track, .btn-validate {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.divider { border: 0; border-top: 1px solid #f0f0f0; margin: 20px 0; }
-
-.btn-validate-global {
-    background-color: #1890ff;
-    color: white;
-    border: none;
-    padding: 10px 24px;
-    border-radius: 4px;
-    font-weight: 600;
-    transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(24, 144, 255, 0.3);
-
-    &:hover {
-        background-color: #096dd9;
-        transform: translateY(-2px);
-    }
-}
-
-.item-selection {
-    display: flex;
-    align-items: center;
-    
-    .mantis-checkbox {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        accent-color: #1890ff; // Couleur bleue Mantis pour la checkbox
-    }
-}
-
-.cart-item {
-    display: flex; // Pour aligner checkbox + image + détails
-    align-items: center;
-    padding: 20px;
-}
-
-// Pour que l'image et les détails prennent le reste de la place
-.item-details { flex: 1; }
+.inline-icon { font-size: 18px!important; width: 18px!important; height: 18px!important; }

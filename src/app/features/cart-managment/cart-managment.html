@@ -1,88 +1,95 @@
 <div class="mantis-cart-container container">
-    <div class="row header-content mb-4">
-        <app-header></app-header>
-    </div>  
-
-    <div *ngIf="isLoading" class="d-flex justify-content-center py-5">
-      <div class="loader"></div>
+  <div class="row mb-4">
+    <div class="col-12">
+      <app-header></app-header>
     </div>
+  </div>
 
-    <div class="d-flex justify-content-between align-items-center mb-4" *ngIf="!isLoading && Orders.length > 0">
-        <h2 class="cart-title m-0">Gestion des commandes <span>({{ Orders.length }} articles)</span></h2>
-        
-        <button class="btn-validate" (click)="validateOrder()" *ngIf="UnpaidOrders.length > 0">
-            <mat-icon class="inline-icon">check_circle</mat-icon>
-            Valider le paiement des articles
-        </button>
-    </div>
+  <div *ngIf="isLoading" class="d-flex justify-content-center py-5">
+    <div class="loader"></div>
+  </div>
 
-    <div class="row">
-      <div class="order-buttons-group mb-3">
+  <div class="d-flex justify-content-between align-items-end mb-4" *ngIf="!isLoading">
+    <div>
+      <h2 class="cart-title m-0">
+        Gestion des commandes 
+        <span>({{ Orders.length }} articles)</span>
+      </h2>
+      <div class="mt-2">
         <button class="btn-track" routerLink="/order-tracking">
-            <mat-icon class="inline-icon">local_shipping</mat-icon>
-            Suivre le colis
+          <mat-icon class="inline-icon">local_shipping</mat-icon>
+          Suivre le colis
         </button>
       </div>
+    </div>
 
-      <div class="col-12">
-        <div class="cart-card">
+    <button class="btn-validate" (click)="validateOrder()" *ngIf="UnpaidOrders.length > 0">
+      <mat-icon class="inline-icon">check_circle</mat-icon>
+      Valider le paiement
+    </button>
+  </div>
+
+  <div class="row" *ngIf="!isLoading && Orders.length > 0">
+    <div class="col-12">
+      <div class="cart-card">
+        <div class="cart-item" *ngFor="let order of Orders; trackBy: trackByFn">
           
-            <div class="cart-item d-flex align-items-center" *ngFor="let order of Orders; trackBy: trackByFn">
-            <div class="item-image">
-              <img src="{{ order.product_id.image }}" alt="Produit">
-            </div>
-              <div class="item-details flex-grow-1">
-                <div class="item-main-info">
-                  <div>
-                    <h4>{{ order.product_id.name }}</h4>
-                    <p class="item-meta d-flex align-items-center gap-2">
-                      <span>Variant: {{ order?.specifications ? order.specifications!.split('-')[1] : 'Non spécifiée' }}</span>
-                      |
-                      <span class="d-flex align-items-center">
-                        Couleur: 
-                        <ng-container *ngIf="order?.specifications && order.specifications!.split('-')[1]; else noColor">
-                          <span 
-                            class="ms-2 rounded-circle border shadow-sm" 
-                            [style.backgroundColor]="order.specifications!.split('-')[0]"
-                            style="width: 18px; height: 18px; display: inline-block;"
-                            [title]="order.specifications!.split('-')[0]">
-                          </span>
-                        </ng-container>
-                        <ng-template #noColor> Non spécifiée</ng-template>
-                      </span>
-                    </p>          
-                    <span class="status-badge" [ngClass]="getStatusConfig(order.state).class">
-                      {{ getStatusConfig(order.state).label }}
-                    </span>                  
-                  </div>
-                  <div class="text-end">
-                    <span class="item-price-unit">{{ order.unit_price }} Ar</span>
-                    <div class="item-total-price mt-1">{{ order.quantity * order.unit_price }} Ar</div>
-                  </div>
+          <div class="item-image">
+            <img [src]="order.product_id!.image || 'assets/placeholder.png'" alt="Produit">
+          </div>
+
+          <div class="item-details">
+            <div class="item-main-info">
+              <div>
+                <h4>{{ order.product_id!.name }}</h4>
+                <div class="item-meta d-flex align-items-center gap-2 mt-1">
+                  <span>Variant: {{ order?.specifications?.split('-')?.[1] || 'Standard' }}</span>
+                  <span *ngIf="order?.specifications?.includes('-')">|</span>
+                  <span class="d-flex align-items-center" *ngIf="order?.specifications?.includes('-')">
+                    Couleur: 
+                    <span class="ms-1 rounded-circle border shadow-sm" 
+                          [style.backgroundColor]="order.specifications!.split('-')[0]"
+                          style="width: 14px; height: 14px; display: inline-block;">
+                    </span>
+                  </span>
                 </div>
-                
-                <div class="item-actions-row">
-                  <div class="qty-selector" *ngIf="order.state === 1">
-                    <button (click)="decreaseQty(order)">-</button>
-                    <input type="text" value="{{ order.quantity }}" readonly>
-                    <button (click)="increaseQty(order)">+</button>
-                  </div>
-                  
-                  <div class="action-buttons-group">
-                      <button class="btn-delete-icon" title="Supprimer" (click)="deleteOrder(order._id!)" *ngIf="order.state === 1">
-                          <mat-icon>delete_outline</mat-icon>
-                      </button>
-                  </div>
+                <div class="mt-2">
+                  <span class="status-badge" [ngClass]="getStatusConfig(order.state).class">
+                    {{ getStatusConfig(order.state).label }}
+                  </span>
                 </div>
+              </div>
+
+              <div class="text-end">
+                <div class="item-price-unit">{{ order.unit_price | number }} Ar</div>
+                <div class="item-total-price">{{ (order.quantity * order.unit_price) | number }} Ar</div>
               </div>
             </div>
 
-          <hr class="divider">
+            <div class="item-actions-row">
+              <div class="qty-selector" *ngIf="order.state === 1">
+                <button (click)="decreaseQty(order)">-</button>
+                <input type="text" [value]="order.quantity" readonly>
+                <button (click)="increaseQty(order)">+</button>
+              </div>
+              
+              <button class="btn-delete-icon" (click)="deleteOrder(order._id!)" *ngIf="order.state === 1">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="row header-content mt-5">
-        <app-footer></app-footer>
+  <div *ngIf="!isLoading && Orders.length === 0" class="text-center py-5">
+    <p>Aucune commande trouvée.</p>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-12">
+      <app-footer></app-footer>
     </div>
+  </div>
 </div>

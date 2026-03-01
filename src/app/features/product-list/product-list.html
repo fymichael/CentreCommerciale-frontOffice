@@ -1,101 +1,83 @@
-<div class="container-fluid mantis-container mt-4">
-    <div class="row header-content mb-5">
-        <app-header></app-header>
-        <div class="mantis-results-header">
-          <div class="row align-items-center">
-              <div class="col-lg-3 col-md-12">
-                  <h3 *ngIf="activeSearched" class="results-count" style="margin-left: 40px;">
-                      <strong> {{ products.length }} </strong> Résultats pour <span>"{{searchedTerm}}"</span>
-                  </h3>
-              </div>
+<div class="container-fluid mt-4">
+    <app-header></app-header>
+    
+    <div class="mantis-results-header border-bottom mb-4">
+        <div class="row align-items-center">
+            <div class="col-lg-3">
+                <h3 *ngIf="activeSearched" class="results-count ps-lg-4">
+                    <strong>{{ products.length }}</strong> Résultats pour <span>"{{searchedTerm}}"</span>
+                </h3>
+            </div>
+            <div class="col-lg-9">
+                <ul class="mantis-horizontal-nav">
+                    <li *ngFor="let cat of categories" 
+                        (click)="filterByCategory(cat._id!)" 
+                        [class.active]="cat._id === selectedCategoryId">
+                        {{ cat.name }}
+                    </li>                  
+                </ul>
+            </div>
+        </div>
+    </div>
 
-              <div class="col-lg-9 col-md-12">
-                  <ul class="mantis-horizontal-nav">
-                      
-                      <li *ngFor="let categorie of categories" 
-                          (click)="filterByCategory(categorie._id!)" 
-                          style="cursor: pointer;"
-                          [class.active]="categorie._id === selectedCategoryId">
-                          {{ categorie.name }}
-                      </li>                  
-                    </ul>
-              </div>
-          </div>
-      </div>
-    </div>  
-  <div class="row pt-3">
-
-    <div class="col-lg-3 col-md-4 mb-4">
-        <div class="filter-wrapper">
+    <div class="row pt-3">
+        <aside class="col-lg-3 col-md-4 mb-4">
             <div class="mantis-aside-filter">
                 <div class="filter-head">
-                    <h3>Filtrer</h3>
-                    <button type="button" class="btn-reset" (click)="resetFilters()">
-                    <i class="fa fa-undo"></i> Réinitialiser
+                    <h3 class="m-0" style="font-size: 14px; font-weight: 700;">FILTRER</h3>
+                    <button class="btn-reset text-primary border-0 bg-transparent" (click)="resetFilters()">
+                        <i class="fa fa-undo"></i> Réinitialiser
                     </button>
                 </div>
-
                 <div class="filter-content">
-                <form #filterForm="ngForm" (ngSubmit)="applyFilters()">
-                    
-                    <div class="filter-group">
-                    <div class="label-row">
-                        <label class="group-label">Plage de prix</label>
-                    </div>
-                    <input type="number" name="minPrice" [(ngModel)]="filterValues.minPrice" placeholder="Min">
-                    <input type="number" name="maxPrice" [(ngModel)]="filterValues.maxPrice" placeholder="Max" style="margin-left: 20px;">
-                    </div>
-
-                    <button type="submit" class="btn-apply">Appliquer les filtres</button>
-                </form>
-            </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-9 col-md-8">
-    
-    <div *ngIf="isLoading" class="d-flex flex-column justify-content-center align-items-center py-5">
-        <div class="loader"></div>
-    </div>
-
-    <div *ngIf="!isLoading" class="row g-3"> 
-        
-        <div class="col-12 text-center py-5" *ngIf="products.length === 0">
-            <p>Aucun produit disponible pour le moment.</p>
-        </div>
-
-        <div class="col-xl-4 col-lg-6 col-md-6 mb-4" *ngFor="let product of products">
-            <mat-card class="mantis-product-card shadow-none">
-                <a *ngIf="product._id" [routerLink]="['/product-details', product._id]">
-                        <div class="image-container">
-                        <div class="product-bg-image" 
-                            [ngStyle]="{'background-image': 'url(' + (product.image || 'images/sac.jpeg') + ')'}"
-                            role="img" 
-                            [attr.aria-label]="product.name">
+                    <form (ngSubmit)="applyFilters()">
+                        <div class="mb-4">
+                            <label class="group-label d-block mb-2 text-muted" style="font-size: 12px; font-weight: 600;">PLAGE DE PRIX</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="number" name="minPrice" [(ngModel)]="filterValues.minPrice" placeholder="Min">
+                                <span>-</span>
+                                <input type="number" name="maxPrice" [(ngModel)]="filterValues.maxPrice" placeholder="Max">
+                            </div>
                         </div>
-                        <div class="badge-new">Nouveau</div>
-                        <mat-icon class="badge-favorities">favorite_border</mat-icon>
-                    </div>
-                </a>
+                        <button type="submit" class="btn-apply">Appliquer</button>
+                    </form>
+                </div>
+            </div>
+        </aside>
 
-                <mat-card-content class="pt-3">
-                    <div class="category-text text-uppercase">{{ product.category_id.name }}</div>
-                    <div class="product-header-row">
-                        <h3 class="product-title">{{ product.name }}</h3>
-                        <span class="vendor-tag">{{ product.shop_id.name }}</span>
-                    </div>
-                    
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <span class="price-tag">{{ product.unit_price | number }} Ar</span>
-                    </div>
-                </mat-card-content>
-            </mat-card>
-        </div>
+        <main class="col-lg-9 col-md-8">
+            <div *ngIf="isLoading" class="text-center py-5">
+                <div class="loader mx-auto"></div>
+            </div>
+
+            <div *ngIf="!isLoading" class="row g-3"> 
+                <div class="col-12 text-center py-5" *ngIf="products.length === 0">
+                    <p class="text-muted">Aucun produit disponible.</p>
+                </div>
+
+                <div class="col-xl-4 col-lg-6 col-md-6 mb-4" *ngFor="let product of products">
+                    <mat-card class="mantis-product-card shadow-none">
+                        <a [routerLink]="['/product-details', product._id]">
+                            <div class="image-container">
+                                <div class="product-bg-image" 
+                                     [style.backgroundImage]="'url(' + (product.image || 'assets/placeholder.jpg') + ')'">
+                                </div>
+                                <div class="badge-new">Nouveau</div>
+                                <mat-icon class="badge-favorities">favorite_border</mat-icon>
+                            </div>
+                        </a>
+                        <mat-card-content class="p-3">
+                            <div class="category-text text-uppercase mb-1">{{ product.category_id!.name }}</div>
+                            <div class="d-flex justify-content-between align-items-start gap-2">
+                                <h3 class="product-title">{{ product.name }}</h3>
+                                <span class="vendor-tag">{{ product.shop_id!.name }}</span>
+                            </div>
+                            <div class="price-tag mt-3">{{ product.unit_price | number }} Ar</div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </main>
     </div>
-    </div>
-        <div class="row header-content mb-5">
-        <app-footer></app-footer>
-    </div>  
-  </div>
+    <app-footer></app-footer>
 </div>
