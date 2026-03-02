@@ -13,14 +13,8 @@
     <div>
       <h2 class="cart-title m-0">
         Gestion des commandes 
-        <span>({{ Orders.length }} articles)</span>
+        <span>({{ UnpaidOrders.length }} articles)</span>
       </h2>
-      <div class="mt-2">
-        <button class="btn-track" routerLink="/order-tracking">
-          <mat-icon class="inline-icon">local_shipping</mat-icon>
-          Suivre le colis
-        </button>
-      </div>
     </div>
 
     <button class="btn-validate" (click)="validateOrder()" *ngIf="UnpaidOrders.length > 0">
@@ -29,10 +23,10 @@
     </button>
   </div>
 
-  <div class="row" *ngIf="!isLoading && Orders.length > 0">
+  <div class="row" *ngIf="!isLoading && UnpaidOrders.length > 0">
     <div class="col-12">
       <div class="cart-card">
-        <div class="cart-item" *ngFor="let order of Orders; trackBy: trackByFn">
+        <div class="cart-item" *ngFor="let order of UnpaidOrders; trackBy: trackByFn">
           
           <div class="item-image">
             <img [src]="order.product_id!.image || 'assets/placeholder.png'" alt="Produit">

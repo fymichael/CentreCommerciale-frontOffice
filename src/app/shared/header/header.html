@@ -22,6 +22,12 @@
     <!-- ACTIONS -->
     <div class="mantis-header-actions">
 
+        <!-- Connexion -->
+        <a href="https://centre-commerciale-frontend.vercel.app/login" class="mantis-action-btn login-btn" *ngIf="!userId">
+            <mat-icon>person_outline</mat-icon>
+            <span>Connexion</span>
+        </a>
+
         <!-- Panier -->
         <button class="mantis-action-btn icon-only cart-wrapper" title="Panier" routerLink="/cart">
             <mat-icon>shopping_cart</mat-icon>

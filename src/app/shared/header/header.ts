@@ -17,11 +17,12 @@ import { InvoiceService } from '../../services/invoice';
 export class Header {
   isLoading: boolean = false;
   Orders: Order[] = [];
+  userId: string = localStorage.getItem('user_id') || '';
 
   constructor(private searchService: SearchService, private cdr: ChangeDetectorRef, private invoiceService: InvoiceService) {}
 
   ngOnInit(): void {
-    this.loadOrderByUserId('699f58ff5c3c546996f2844c');
+    this.loadOrderByUserId(this.userId);
   }
 
   async loadOrderByUserId(userId: string): Promise<void> {
