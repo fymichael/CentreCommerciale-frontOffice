@@ -86,9 +86,9 @@
                         </div>
                     </div>
 
-                    <button class="btn-add-cart" (click)="addToCart()">
+                    <button class="btn-add-cart" (click)="addToCart()" [disabled]="!isAuthenticated">
                         <i class="fa-solid fa-cart-plus"></i>
-                        Ajouter au panier
+                        Ajouter au panier {{isAuthenticated ? '' : '(Veuillez vous connecter)'}}
                     </button>
                 </div>
             </div>

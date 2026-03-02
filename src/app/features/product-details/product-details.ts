@@ -1,58 +1,52 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Header } from '../../shared/header/header';
 import { Footer } from '../../shared/footer/footer';
 import { ProductService } from '../../services/product';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { InvoiceService } from '../../services/invoice';
+import { Storage } from '../../services/storage';
+import { StorageModel } from '../../models/storage.model';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.html',
   styleUrls: ['./product-details.scss'],
   standalone: true,
-  imports: [CommonModule, Header, Footer, FormsModule]
+  imports: [CommonModule, Header, Footer, FormsModule, RouterModule]
 })
+
 export class ProductDetails implements OnInit {
-  
-  public product: any = null; // Initialisé à null en attendant l'API
+  public product: any = null;
   public quantity: number = 1;
   public isLoading: boolean = true;
+  public isAuthenticated: boolean = false;
+  public storageItem: any = null; 
+  public selectedColor: string = '';
+  public selectedVariant: string = '';
+  public userId = localStorage.getItem('user_id') || '';
 
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private storage: Storage,
+    private router: Router
   ){}
 
   ngOnInit(): void {
-    // 1. Récupérer l'ID dans l'URL
     const productId = this.route.snapshot.paramMap.get('id');
-    console.log(productId);
+    // Récupération dynamique de l'ID utilisateur (celui qu'on a passé par l'URL avant)
+    const userId = localStorage.getItem('user_id');
+    this.isAuthenticated = !!userId;
 
     if (productId) {
-      this.loadProduct(productId);
+      this.loadData(productId);
     }
-  }
-
-  private loadProduct(id: string): void {
-    this.isLoading = true;
-    this.productService.getProductsById(id).subscribe({
-      next: (data) => {
-        this.product = data;
-        this.isLoading = false;
-        console.log(data);
-        this.cd.detectChanges();
-      },
-      error: (err) => {
-        console.error('Erreur lors du chargement du produit', err);
-        this.isLoading = false;
-        this.cd.detectChanges();
-      }
-    });
   }
 
   private async getNextReference(): Promise<string> {
@@ -61,10 +55,40 @@ export class ProductDetails implements OnInit {
     return nextRef
   }
 
+  // On centralise le chargement pour garantir l'ordre
+  private async loadData(id: string) {
+    this.isLoading = true;
+    try {
+      // 1. Charger le produit
+      const productData = await this.productService.getProductsById(id).toPromise();
+      this.product = productData;
+
+      // 2. Charger le stock (en attendant que le produit soit là)
+      const stockArray = await this.storage.getStockByProductId(id);
+      
+      // On extrait l'objet du tableau [0] comme vu dans ton log
+      this.storageItem = Array.isArray(stockArray) ? stockArray[0] : stockArray;
+      localStorage.setItem(this.storageItem?.product_id?._id || '', this.storageItem?.quantity || '0');
+
+      console.log('Données chargées. Stock dispo:', this.storageItem?.quantity);
+      
+      this.isLoading = false;
+      this.cd.detectChanges();
+    } catch (err) {
+      console.error('Erreur de chargement:', err);
+      this.isLoading = false;
+      this.cd.detectChanges();
+    }
+  }
+
   public increaseQty(): void {
-    // Note : On utilise 'state' ou un nombre fixe car ton type n'a pas de champ 'stock' explicite
-    if (this.quantity < 20) { 
+    const stockDisponible = this.storageItem?.quantity || 0;
+    
+    // Correction de la condition : on autorise jusqu'à la limite du stock (max 20)
+    if (this.quantity < 20 && this.quantity < stockDisponible) { 
       this.quantity++;
+    } else if (this.quantity >= stockDisponible) {
+      console.warn("Stock maximum atteint");
     }
   }
 
@@ -74,10 +98,7 @@ export class ProductDetails implements OnInit {
     }
   }
 
-  public selectedColor: string = '';
-  public selectedVariant: string = '';
-
-  // Appelé quand on clique sur une couleur
+    // Appelé quand on clique sur une couleur
   selectColor(color: string) {
     this.selectedColor = color;
   }
@@ -105,7 +126,7 @@ export class ProductDetails implements OnInit {
       product_id: this.product._id,
       unit_price: this.product.unit_price,
       quantity: this.quantity,
-      user_id: '699f58ff5c3c546996f2844c',
+      user_id: this.userId,
       // On ajoute les sélections ici !
       specifications: `${this.selectedColor} - ${this.selectedVariant}`,
       state: 1
@@ -113,6 +134,7 @@ export class ProductDetails implements OnInit {
 
     console.log('Produit complet ajouté au panier :', orderItem);
     this.invoiceService.createInvoice(orderItem);
-    alert(`Ajouté : ${this.product.name} (${this.selectedColor}, ${this.selectedVariant})`);
+    this.router.navigate(['/cart']);
+    //alert(`Ajouté : ${this.product.name} (${this.selectedColor}, ${this.selectedVariant})`);
   }
 }

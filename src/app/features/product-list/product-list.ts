@@ -11,6 +11,7 @@ import { CategoryService } from '../../services/category';
 import { SearchService } from '../../services/search';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -32,9 +33,17 @@ export class ProductList implements OnInit {
       maxPrice: 0
     };
 
-    constructor(private productService: ProductService, private cd: ChangeDetectorRef, private categoryService: CategoryService, private searchService: SearchService) {}
+    constructor(private productService: ProductService, private cd: ChangeDetectorRef, private categoryService: CategoryService, private searchService: SearchService, private route: ActivatedRoute) {}
 
     ngOnInit(): void {
+      this.route.queryParams.subscribe(params => {
+        const userId = params['user_id'];
+        if (userId) {
+          console.log('User ID récupéré de l\'autre app :', userId);
+          localStorage.setItem('user_id', userId);
+        }
+      });
+
       this.searchService.search$.subscribe(term => {
         this.executeSearch(term);
         this.activeSearched = true;

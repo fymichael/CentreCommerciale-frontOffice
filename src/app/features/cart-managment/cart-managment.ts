@@ -19,11 +19,12 @@ export class CartManagment {
   Orders: Order[] = [];
   UnpaidOrders: Order[] = [];
   isLoading: boolean = false;
+  userId = localStorage.getItem('user_id') || '';
 
   constructor(private invoiceService: InvoiceService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.loadOrderByUserId('699f58ff5c3c546996f2844c');
+    this.loadOrderByUserId(this.userId);
   }
 
   async loadOrderByUserId(userId: string): Promise<void> {
@@ -67,6 +68,11 @@ export class CartManagment {
   }
 
   increaseQty(order: Order): void {
+    const storageQty = parseInt(localStorage.getItem(order.product_id?._id || '') || '0', 10);
+    if (order.quantity >= storageQty) {
+      alert('Quantité maximale atteinte pour ce produit.');
+      return;
+    }
     this.invoiceService.UpdateInvoice(order._id!, { quantity: order.quantity + 1 }).then(() => {
       order.quantity++;
       this.cdr.detectChanges();
