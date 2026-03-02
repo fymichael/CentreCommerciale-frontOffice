@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { InvoiceService } from '../../services/invoice';
 import { Order } from '../../models/orders.model';
 import { ChangeDetectorRef } from '@angular/core';
+import { Storage } from '../../services/storage';
 
 @Component({
   selector: 'app-cart-managment',
@@ -21,7 +22,7 @@ export class CartManagment {
   isLoading: boolean = false;
   userId = localStorage.getItem('user_id') || '';
 
-  constructor(private invoiceService: InvoiceService, private cdr: ChangeDetectorRef) {}
+  constructor(private invoiceService: InvoiceService, private cdr: ChangeDetectorRef, private storageService: Storage) {}
 
   ngOnInit(): void {
     this.loadOrderByUserId(this.userId);
@@ -49,6 +50,11 @@ export class CartManagment {
           await this.invoiceService.UpdateInvoice(order._id, { state: 5 });
         }
       }
+      
+      for (const order of this.UnpaidOrders) {
+        await this.storageService.decreaseStock(order.product_id?._id || '', order.quantity);
+      }
+
       console.log('Toutes les commandes ont été validées avec succès.');
       window.location.reload();
     } catch (error) {
