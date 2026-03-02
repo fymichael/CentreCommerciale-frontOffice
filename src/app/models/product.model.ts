@@ -11,4 +11,5 @@ export interface Product {
   shop_id: Shop;
   category_id: Category;
   image: string;
+  createdAt?: string;
 }

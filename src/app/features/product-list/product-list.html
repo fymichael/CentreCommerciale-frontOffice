@@ -62,7 +62,7 @@
                                 <div class="product-bg-image" 
                                      [style.backgroundImage]="'url(' + (product.image || 'assets/placeholder.jpg') + ')'">
                                 </div>
-                                <div class="badge-new">Nouveau</div>
+                                <div class="badge-new" *ngIf="isNewProduct(product)">Nouveau</div>
                                 <mat-icon class="badge-favorities">favorite_border</mat-icon>
                             </div>
                         </a>

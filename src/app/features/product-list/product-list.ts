@@ -57,6 +57,13 @@ export class ProductList implements OnInit {
       });
     }
 
+    isNewProduct(product: Product): boolean {
+      const createdAt = new Date(product.createdAt!);
+      const now = new Date();
+      const diffInDays = (now.getTime() - createdAt.getTime()) / (1000 * 3600 * 24);
+      return diffInDays <= 1; 
+    }
+
     loadCategories() {
       this.categoryService.getCategories().subscribe({
         next: (data) => {
@@ -76,6 +83,13 @@ export class ProductList implements OnInit {
 
       this.productService.getProductsByCategory(idCategory).subscribe({
         next: (data) => {
+          if (data.length === 0) {
+            console.warn('Aucun produit trouvé pour la catégorie :', idCategory);
+            this.products = [];
+            this.isLoading = false;
+            this.cd.detectChanges();
+            return; 
+          }
           this.products = data;
           this.isLoading = false;
           this.cd.detectChanges();
@@ -97,12 +111,19 @@ export class ProductList implements OnInit {
       
       this.productService.searchProduct(term).subscribe({
         next: (results: any) => {
-          this.products = results.data;
-          this.cd.detectChanges();
+          this.products = results;
           this.isLoading = false;
+          this.cd.detectChanges();
         },
-        error: (err) => console.error(err)
-      });
+        error: (err) => {
+          this.isLoading = false;
+          this.cd.detectChanges();
+           if (err.status === 404) {
+            console.warn('Aucun résultat trouvé pour :', term);
+            this.products = [];
+            return; 
+        }
+        }});
     }
 
     applyFilters() {
@@ -110,12 +131,12 @@ export class ProductList implements OnInit {
       this.isLoading = true;
       this.productService.filterProduct(this.filterValues.minPrice, this.filterValues.maxPrice).subscribe({
           next: (res: any) => {
-            this.products = res.data; 
+            this.products = res; 
             
             this.isLoading = false;
             this.cd.detectChanges();
             
-            console.log('Produits filtrés : ', res.data);
+            console.log('Produits filtrés : ', res);
             
           },
           error: (err) => {
