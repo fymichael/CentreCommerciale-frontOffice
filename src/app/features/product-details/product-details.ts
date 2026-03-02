@@ -59,25 +59,36 @@ export class ProductDetails implements OnInit {
   private async loadData(id: string) {
     this.isLoading = true;
     try {
-      // 1. Charger le produit
       const productData = await this.productService.getProductsById(id).toPromise();
       this.product = productData;
 
-      // 2. Charger le stock (en attendant que le produit soit là)
       const stockArray = await this.storage.getStockByProductId(id);
-      
-      // On extrait l'objet du tableau [0] comme vu dans ton log
-      this.storageItem = Array.isArray(stockArray) ? stockArray[0] : stockArray;
-      localStorage.setItem(this.storageItem?.product_id?._id || '', this.storageItem?.quantity || '0');
 
-      console.log('Données chargées. Stock dispo:', this.storageItem?.quantity);
+      // --- CALCUL DU STOCK NET (IN - OUT) ---
+      if (Array.isArray(stockArray) && stockArray.length > 0) {
+        const totalStock = stockArray.reduce((acc: number, item: any) => {
+          if (item.type === 'IN') return acc + item.quantity;
+          if (item.type === 'OUT') return acc - item.quantity;
+          return acc;
+        }, 0);
+
+        // On crée un objet storageItem synthétique avec le résultat
+        this.storageItem = {
+          quantity: totalStock,
+          product_id: stockArray[0].product_id
+        };
+        localStorage.setItem(id, totalStock.toString());
+      } else {
+        this.storageItem = { quantity: 0 };
+      }
+
+      console.log('Stock Net calculé (Somme IN - Somme OUT) :', this.storageItem.quantity);
       
       this.isLoading = false;
       this.cd.detectChanges();
     } catch (err) {
       console.error('Erreur de chargement:', err);
       this.isLoading = false;
-      this.cd.detectChanges();
     }
   }
 

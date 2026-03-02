@@ -17,4 +17,24 @@ export class Storage {
       return 0;
     }
   }
+
+  async decreaseStock(productId: string, quantity: number): Promise<void> {
+    try {
+      const response = await fetch(`https://centre-commerciale-backend.vercel.app/storages/exit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productId: productId, quantity }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur lors de la diminution du stock : ${response.statusText}`);
+      }
+
+      console.log('Stock diminué avec succès');
+    } catch (error) {
+      console.error('Erreur lors de la diminution du stock :', error);
+    }
+  }
 }
