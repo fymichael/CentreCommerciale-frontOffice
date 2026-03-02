@@ -9,9 +9,9 @@ import { Product } from '../models/product.model';
 export class ProductService {
 
   private apiUrl = 'https://centre-commerciale-backend.vercel.app/products';
-  private prodCategoryUrl = 'https://centre-commerciale-backend.vercel.app/products/category'
-  private searchUrl = 'https://centre-commerciale-backend.vercel.app/products/search?q=';
-  private filterUrl = 'https://centre-commerciale-backend.vercel.app/products/filter';
+  private prodCategoryUrl = 'http://localhost:5000/products/category'
+  private searchUrl = 'http://localhost:5000/products/search?q=';
+  private filterUrl = 'http://localhost:5000/products/filter';
 
   constructor(private http: HttpClient) { }
 
