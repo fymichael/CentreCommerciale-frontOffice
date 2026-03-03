@@ -76,7 +76,7 @@
 
                 <hr class="mantis-divider">
 
-                <div class="purchase-actions">
+                <div class="purchase-actions" *ngIf="storageItem?.quantity > 0">
                     <div class="quantity-selector">
                         <label>Quantité</label>
                         <div class="qty-input-group">
@@ -86,10 +86,14 @@
                         </div>
                     </div>
 
-                    <button class="btn-add-cart" (click)="addToCart()" [disabled]="!isAuthenticated" *ngIf="storageItem?.quantity > 0" >
+                    <button class="btn-add-cart" (click)="addToCart()" [disabled]="!isAuthenticated" >
                         <i class="fa-solid fa-cart-plus"></i>
                         Ajouter au panier {{isAuthenticated ? '' : '(Veuillez vous connecter)'}}
                     </button>
+                </div>
+                <div class="out-of-stock-badge" *ngIf="storageItem?.quantity <= 0">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                    Rupture de stock
                 </div>
             </div>
         </div>
